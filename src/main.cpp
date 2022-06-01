@@ -25,14 +25,14 @@ int cursorRow = 0;
  * Prints 4 items including the selected one.
  */
 
-void printSelected(int start, int end){
-  cursorRow = 0;
-  if(start<0)
-    start = 0;
-  const MenuItem* curr = obj.getMenuItem(); //current menu
-  for(int i=start; i<=end; i++){
-    lcd.print(curr[obj.getCurrentItemIndex()].name);
-    lcd.setCursor(cursorRow++,0);
+void printSelected(){
+  const MenuItem* curr = obj.getMenuItem();
+  if(obj.getCurrentItemIndex() < 4){
+    //print top 4 items
+    for(int i=0; i<4; i++){
+      lcd.print(curr[i].name);
+      lcd.setCursor(i,0);
+    }
   }
 }
 
@@ -45,8 +45,7 @@ void setup() {
   Serial.begin(115200);
   lcd.begin();
   ttp229.begin(TTP229_SCL,TTP229_SDO);
-  printSelected(0,3);
-  Serial.println("halohalo");
+  printSelected();
 }
 
 void loop() {
