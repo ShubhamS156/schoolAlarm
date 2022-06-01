@@ -32,7 +32,7 @@ void printSelected(){
     for(int i=0; i<4; i++){
       lcd.print(curr[i].name);
       Serial.println(curr[i].name);
-      lcd.setCursor(0,i);
+      lcd.setCursor(0,i+1);
     }
   }
 }
