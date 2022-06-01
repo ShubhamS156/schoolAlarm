@@ -63,8 +63,17 @@ void setup() {
   Serial.begin(115200);
   lcd.begin();
   ttp229.begin(TTP229_SCL,TTP229_SDO);
-  printSelected();
+  //printSelected();
   Serial.println("bruh");
+  lcd.setCursor(0,0);
+  lcd.print("one");
+  lcd.setCursor(0,1);
+  lcd.print("two");
+  lcd.setCursor(0,2);
+  lcd.print("three");
+  lcd.setCursor(0,3);
+  lcd.print("four");
+
 }
 
 void loop() {
