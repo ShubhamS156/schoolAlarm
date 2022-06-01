@@ -43,7 +43,7 @@ uint8_t getKey(){
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  lcd.init();
+  lcd.begin();
   ttp229.begin(TTP229_SCL,TTP229_SDO);
   printSelected(obj.getCurrentItemIndex()-3,obj.getCurrentItemIndex());
   Serial.println("halohalo");
