@@ -27,25 +27,25 @@ int cursorRow = 0;
 
 void printSelected(){
   const MenuItem* curr = obj.getMenuItem();
-  int counter = 1;
+  int counter = 0;
   if(obj.getCurrentItemIndex() < 4){
     //print top 4 items
     for(int i=0; i<4; i++){
       lcd.print(curr[i].name);
       Serial.println(curr[i].name);
-      lcd.setCursor(1,counter++);
+      lcd.setCursor(0,counter++);
     }
-    lcd.setCursor(1,obj.getCurrentItemIndex()+1);
-    Serial.printf("Setting cursor to %d\n",obj.getCurrentItemIndex()+1);
+    lcd.setCursor(0,obj.getCurrentItemIndex());
+    Serial.printf("Setting cursor to %d\n",obj.getCurrentItemIndex());
   }
   else{
     //print the selected and above 3
     for(int i=obj.getCurrentItemIndex()-3; i<=obj.getCurrentItemIndex();i++){
       lcd.print(curr[i].name);
-      lcd.setCursor(1,counter++);
+      lcd.setCursor(0,counter++);
     }
-    lcd.setCursor(1,(obj.getCurrentItemIndex()%4)+1);
-    Serial.printf("Setting cursor to %d\n",(obj.getCurrentItemIndex()%4)+1);
+    lcd.setCursor(0,(obj.getCurrentItemIndex()%4));
+    Serial.printf("Setting cursor to %d\n",(obj.getCurrentItemIndex()%4));
   }
     lcd.cursor();
     delay(300);
@@ -63,17 +63,7 @@ void setup() {
   Serial.begin(115200);
   lcd.begin();
   ttp229.begin(TTP229_SCL,TTP229_SDO);
-  //printSelected();
-  Serial.println("bruh");
-  lcd.setCursor(0,0);
-  lcd.print("one");
-  lcd.setCursor(0,1);
-  lcd.print("two");
-  lcd.setCursor(0,2);
-  lcd.print("three");
-  lcd.setCursor(0,3);
-  lcd.print("four");
-
+  printSelected();
 }
 
 void loop() {
