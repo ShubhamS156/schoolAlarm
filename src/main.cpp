@@ -46,6 +46,7 @@ void setup() {
   lcd.begin();
   ttp229.begin(TTP229_SCL,TTP229_SDO);
   printSelected();
+  Serial.println("bruh");
 }
 
 void loop() {
