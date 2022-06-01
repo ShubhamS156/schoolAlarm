@@ -47,6 +47,11 @@ void printSelected(){
     lcd.setCursor(0,(obj.getCurrentItemIndex()%4)+1);
     Serial.printf("Setting cursor to %d\n",(obj.getCurrentItemIndex()%4)+1);
   }
+    lcd.cursor();
+    delay(300);
+    lcd.noCursor();
+    delay(300);
+    lcd.cursor();
 }
 
 uint8_t getKey(){
