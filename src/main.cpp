@@ -27,13 +27,25 @@ int cursorRow = 0;
 
 void printSelected(){
   const MenuItem* curr = obj.getMenuItem();
+  int counter = 1;
   if(obj.getCurrentItemIndex() < 4){
     //print top 4 items
     for(int i=0; i<4; i++){
       lcd.print(curr[i].name);
       Serial.println(curr[i].name);
-      lcd.setCursor(0,i+1);
+      lcd.setCursor(0,counter++);
     }
+    lcd.setCursor(0,obj.getCurrentItemIndex()+1);
+    Serial.printf("Setting cursor to %d\n",obj.getCurrentItemIndex()+1);
+  }
+  else{
+    //print the selected and above 3
+    for(int i=obj.getCurrentItemIndex()-3; i<=obj.getCurrentItemIndex();i++){
+      lcd.print(curr[i].name);
+      lcd.setCursor(0,counter++);
+    }
+    lcd.setCursor(0,(obj.getCurrentItemIndex()%4)+1);
+    Serial.printf("Setting cursor to %d\n",(obj.getCurrentItemIndex()%4)+1);
   }
 }
 
