@@ -44,7 +44,6 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   lcd.begin();
-  lcd.noBacklight();
   ttp229.begin(TTP229_SCL,TTP229_SDO);
   printSelected(0,3);
   Serial.println("halohalo");
