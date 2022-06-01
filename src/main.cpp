@@ -31,6 +31,7 @@ void printSelected(){
     //print top 4 items
     for(int i=0; i<4; i++){
       lcd.print(curr[i].name);
+      lcd.print("\n");
       lcd.setCursor(i,0);
     }
   }
