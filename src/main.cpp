@@ -27,7 +27,8 @@ int cursorRow = 0;
 
 void printSelected(){
   const MenuItem* curr = obj.getMenuItem();
-  int counter = 0;
+  int counter = 1;
+  lcd.setCursor(0,0);
   if(obj.getCurrentItemIndex() < 4){
     //print top 4 items
     for(int i=0; i<4; i++){
