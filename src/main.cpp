@@ -55,8 +55,11 @@ void printSelected(){
     lcd.cursor();
 }
 
-uint8_t getKey(){
-  return ttp229.GetKey16();
+
+void keyChange()
+{
+    // A key press changed
+    ttp229.keyChange = true;
 }
 
 void setup() {
@@ -64,9 +67,30 @@ void setup() {
   Serial.begin(115200);
   lcd.begin();
   ttp229.begin(TTP229_SCL,TTP229_SDO);
+  attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, FALLING);
   printSelected();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if(ttp229.keyChange){
+    int keyPressed = ttp229.GetKey16();
+    Serial.printf("key pressed:%d\n",keyPressed);
+    switch ((keyPressed))
+    {
+    case UP:
+      if(obj.moveToPreviousItem()){
+      Serial.println("going up");
+      printSelected();
+      }
+      break;
+    case DOWN:
+      if(obj.moveToNextItem()){
+      Serial.println("going down");
+      printSelected();
+      }
+    default:
+      break;
+    }
+  }
 }
