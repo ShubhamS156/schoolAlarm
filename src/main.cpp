@@ -46,6 +46,7 @@ void setup() {
   lcd.init();
   ttp229.begin(TTP229_SCL,TTP229_SDO);
   printSelected(obj.getCurrentItemIndex()-3,obj.getCurrentItemIndex());
+  Serial.println("halohalo");
 }
 
 void loop() {
