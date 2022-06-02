@@ -3,8 +3,11 @@
 #include<LiquidCrystal_I2C.h>
 #include<MenuData.h>
 #include<MenuManager.h>
-#include<NTPClient.h>
+#include<RtcDS3231.h>
 #include<TTP229.h>
+#include<freertos/task.h>
+#include<freertos/FreeRTOS.h>
+#include<esp_system.h>
 
 
 #define UP 4
@@ -16,15 +19,19 @@
 #define TTP229_SDO 25
 #define TTP229_SCL 26
 
+#define countof(a) (sizeof(a) / sizeof(a[0]))
+
 LiquidCrystal_I2C lcd(0x23,20,4);
+RtcDS3231<TwoWire> rtc(Wire);
 TTP229 ttp229;
 MenuManager obj(sampleMenu_Root,menuCount(sampleMenu_Root));
+
+int currentSelectionCmdId = mnuCmdHome;
 
 int cursorRow = 0;
 /*
  * Prints 4 items including the selected one.
  */
-
 void printSelected(){
   const MenuItem* curr = obj.getMenuItem();
   int counter = 1;
@@ -55,6 +62,27 @@ void printSelected(){
     lcd.cursor();
 }
 
+/*draw homescreen*/
+void drawHome(RtcDateTime& dt){
+  lcd.clear();
+  lcd.setCursor(0,1);
+  char datestring[20];
+  snprintf_P(datestring, 
+            countof(datestring),
+            PSTR("%02u/%02u/%04u %02u:%02u:%02u"),
+            dt.Month(),
+            dt.Day(),
+            dt.Year(),
+            dt.Hour(),
+            dt.Minute(),
+            dt.Second() );
+    Serial.print(datestring);
+    lcd.clear();
+    lcd.setCursor(0,1);
+    lcd.print(datestring);
+    delay(1000); //delay here or in caller?
+}
+
 
 void keyChange()
 {
@@ -65,15 +93,53 @@ void keyChange()
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  /*---------rtc init------------*/
+  rtc.Begin();
+  RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
+  if(!rtc.IsDateTimeValid()){
+    if(rtc.LastError()!=0){
+      Serial.print("RTC communicatins error= ");
+      Serial.println(rtc.LastError());
+    }
+    else{
+      Serial.println("RTC lost confidence in date and time");
+      rtc.SetDateTime(compiled);
+    }
+  }
+    if (!rtc.GetIsRunning())
+    {
+        Serial.println("RTC was not actively running, starting now");
+        rtc.SetIsRunning(true);
+    }
+  
+  RtcDateTime now = rtc.GetDateTime();
+  if(now < compiled){
+    Serial.println("rtc is older than compile time. Updating");
+    rtc.SetDateTime(compiled);
+  }
+  else{
+    Serial.println("rtc time same or newer than compile time");
+  }
+  rtc.Enable32kHzPin(false);
+  rtc.SetSquareWavePin(DS3231SquareWavePin_ModeNone);
+  /*-----------lcd init---------*/
   lcd.begin();
   lcd.blink();
+  /*-----------keypad------------*/
   ttp229.begin(TTP229_SCL,TTP229_SDO);
   attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, FALLING);
-  printSelected();
+//printSelected();
+  
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+/*task to check for keypress
+  it changes a flag which either tells loop() to do nothing 
+  and task calls logic to handle current selection
+  OR
+  it tells loop() to run a logic continously. eg. draw homescreen and 
+  keep updating time.
+*/
+void keyPressTask(void *pvParameters){
   if(ttp229.keyChange){
     int keyPressed = ttp229.GetKey16();
     Serial.printf("key pressed:%d\n",keyPressed);
@@ -93,5 +159,42 @@ void loop() {
     default:
       break;
     }
+  }
+}
+
+/*
+- updates current time
+- will loop logic or will wait for flag
+*/
+void loop() {
+  // put your main code here, to run repeatedly:
+
+    if (!rtc.IsDateTimeValid()) 
+    {
+        if (rtc.LastError() != 0)
+        {
+            // we have a communications error
+            // see https://www.arduino.cc/en/Reference/WireEndTransmission for 
+            // what the number means
+            Serial.print("RTC communications error = ");
+            Serial.println(rtc.LastError());
+        }
+        else
+        {
+            // Common Causes:
+            //    1) the battery on the device is low or even missing and the power line was disconnected
+            Serial.println("RTC lost confidence in the DateTime!");
+        }
+    }
+
+  RtcDateTime now = rtc.GetDateTime(); //getting the current time 
+  switch (currentSelectionCmdId)
+  {
+  case mnuCmdHome:
+    drawHome(now);
+    break;
+  
+  default:
+    break;
   }
 }
