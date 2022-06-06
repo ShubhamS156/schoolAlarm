@@ -115,20 +115,19 @@ void handleManualMode() {
       Serial.println(keyPressed);
       lcd.setCursor(5, 0);
       switch (keyPressed) {
-      case UP:
-        counter--;
-        if (counter < 1) {
-          counter = 1;
-        }
-        break;
-      case DOWN:
-        counter++;
-        if (counter > fileCount) {
-          counter = fileCount;
-        }
-        break;
       case RELEASE:
-        if (actionKey == UP || actionKey == DOWN) {
+        if (actionKey == UP) {
+          counter--;
+          if (counter < 1) {
+            counter = 1;
+          }
+          counterStr = String(counter);
+          lcd.print(counterStr);
+        } else if (actionKey == DOWN) {
+          counter++;
+          if (counter > fileCount) {
+            counter = fileCount;
+          }
           counterStr = String(counter);
           lcd.print(counterStr);
         } else if (actionKey == ENT) {
