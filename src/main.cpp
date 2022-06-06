@@ -115,23 +115,17 @@ void handleManualMode(){
         counter++;
         if(counter > fileCount){
           counter = fileCount;
-          break;
         }
-        else{
-          msg += String(counter);
-          lcd.print(msg);
-        }
+        msg += String(counter);
+        lcd.print(msg);
         break;
       case DOWN:
         counter--;
         if(counter <= 0){
           counter = 1;
-          break;
         }
-        else{
-          msg += String(counter);
-          lcd.print(msg);
-        }
+        msg += String(counter);
+        lcd.print(msg);
         break;
       case ENT:
         myDFPlayer.play(counter);
