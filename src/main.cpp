@@ -98,39 +98,43 @@ void keyChange() {
 
 void handleManualMode(){
   String msg = "FILE-";
+  String counterStr = "";
   int fileCount = myDFPlayer.readFileCounts();
   int counter = 1;
   lcd.setCursor(0,0);
-  msg += String(counter);
   lcd.print(msg);
   bool exit = false;
+  int actionKey;
   while(!exit){
     if(ttp229.keyChange){
       int keyPressed = ttp229.GetKey16();
+      if(keyPressed!=0){
+        actionKey = keyPressed;
+      }
       Serial.println(keyPressed);
-      lcd.clear();
-      lcd.setCursor(0,0);
-      msg = "FILE-";
+      lcd.setCursor(0,5);
       switch (keyPressed)
       {
       case UP:
         counter--;
-        if(counter > fileCount){
-          counter = fileCount;
-        }
-        break;
-      case DOWN:
-        counter++;
         if(counter < 1){
           counter = 1;
         }
         break;
-      case ENT:
-        myDFPlayer.play(counter);
+      case DOWN:
+        counter++;
+        if(counter > fileCount){
+          counter = fileCount;
+        }
         break;
       case RELEASE: 
-        msg += String(counter);
-        lcd.print(msg);
+        if(actionKey == UP || actionKey == DOWN){
+          counterStr = String(counter);
+          lcd.print(counterStr);
+        }
+        else if(actionKey == ENT){
+          myDFPlayer.play(counter);
+        }
         break;
       case BACK:
         exit = true;
