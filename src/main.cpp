@@ -131,6 +131,7 @@ void handleManualMode(){
       case RELEASE: 
         msg += String(counter);
         lcd.print(msg);
+        break;
       case BACK:
         exit = true;
       default:
