@@ -40,7 +40,7 @@ RtcDS3231<TwoWire> rtc(Wire);
 TTP229 ttp229;
 MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
 
-int currentSelectionCmdId = mnuCmdManual;
+int currentSelectionCmdId = mnuCmdHome;
 
 int cursorRow = 0;
 /*
@@ -201,6 +201,8 @@ void setup() {
   /*-----------keypad------------*/
   ttp229.begin(TTP229_SCL, TTP229_SDO);
   attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
+  /*-------------keyPress Task----------*/
+  xTaskCreate(keyPressTask, "keypress", 4096, NULL, 3, NULL);
   // printSelected();
 }
 
@@ -229,10 +231,30 @@ void keyPressTask(void *pvParameters) {
           printSelected();
         }
       case ENT:
-        if (currentSelectionCmdId == mnuCmdManual) {
+        int currId = obj.getCurrentItemCmdId();
+        if (currId == mnuCmdHome) {
+          currentSelectionCmdId == mnuCmdHome;
+        } else if (currId == mnuCmdManual) {
           // call function to select mp3 file and play it.
+          currentSelectionCmdId == mnuCmdManual;
           handleManualMode();
         }
+      case BACK:
+        if (obj.currentMenuHasParent()) {
+          obj.ascendToParentMenu();
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          printSelected();
+        } else {
+          lcd.clear();
+          lcd.println("g**nd mein ghus jao");
+          lcd.println("peeche ja ja kr");
+        }
+        break;
+      case MENU:
+        obj.reset();
+        lcd.clear();
+        printSelected();
       default:
         break;
       }
@@ -268,10 +290,8 @@ void loop() {
   case mnuCmdHome:
     drawHome(now);
     break;
-  case mnuCmdManual:
-    handleManualMode();
-    break;
   default:
     break;
   }
+  delay(500);
 }
