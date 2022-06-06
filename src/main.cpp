@@ -112,7 +112,7 @@ void handleManualMode(){
         actionKey = keyPressed;
       }
       Serial.println(keyPressed);
-      lcd.setCursor(0,5);
+      lcd.setCursor(5,0);
       switch (keyPressed)
       {
       case UP:
