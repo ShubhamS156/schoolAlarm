@@ -115,13 +115,19 @@ void handleManualMode(){
         counter++;
         if(counter > fileCount)
           break;
-        msg += String(counter);
+        else{
+          msg += String(counter);
+          lcd.print(msg);
+        }
         break;
       case DOWN:
         counter--;
         if(counter < 0)
           break;
-        msg += String(counter);
+        else{
+          msg += String(counter);
+          lcd.print(msg);
+        }
         break;
       case ENT:
         myDFPlayer.play(counter);
@@ -131,7 +137,6 @@ void handleManualMode(){
       default:
         break;
       }
-      lcd.print(msg);
       delay(1000); //affects inc/dec time of counter when button held
     }
     else{
