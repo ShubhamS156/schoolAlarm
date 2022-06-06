@@ -109,22 +109,22 @@ void handleManualMode() {
   while (!exit) {
     if (ttp229.keyChange) {
       int keyPressed = ttp229.GetKey16();
+      Serial.println(keyPressed);
+      lcd.setCursor(5, 0);
       if (keyPressed != 0) {
         actionKey = keyPressed;
       }
-      Serial.println(keyPressed);
-      lcd.setCursor(5, 0);
       switch (keyPressed) {
       case RELEASE:
         if (actionKey == UP) {
-          counter--;
+          --counter;
           if (counter < 1) {
             counter = 1;
           }
           counterStr = String(counter);
           lcd.print(counterStr);
         } else if (actionKey == DOWN) {
-          counter++;
+          ++counter;
           if (counter > fileCount) {
             counter = fileCount;
           }
@@ -194,7 +194,7 @@ void setup() {
   lcd.blink();
   /*-----------keypad------------*/
   ttp229.begin(TTP229_SCL, TTP229_SDO);
-  attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, FALLING);
+  attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
   // printSelected();
 }
 
