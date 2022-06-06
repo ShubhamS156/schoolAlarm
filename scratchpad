@@ -1,1 +1,4 @@
-1: build homescreen and load it in as default
+1: build homescreen and load it in as default ->DONE
+2: logic for manual and program select
+3: store program schedules in eeprom
+Move utility functions to a header file from main.cpp
