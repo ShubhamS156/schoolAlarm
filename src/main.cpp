@@ -118,6 +118,7 @@ void handleManualMode() {
       case RELEASE:
         if (actionKey == UP) {
           --counter;
+          Serial.printf("counter=%d\n", counter);
           if (counter < 1) {
             counter = 1;
           }
@@ -125,6 +126,7 @@ void handleManualMode() {
           lcd.print(counterStr);
         } else if (actionKey == DOWN) {
           ++counter;
+          Serial.printf("counter=%d\n", counter);
           if (counter > fileCount) {
             counter = fileCount;
           }
