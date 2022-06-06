@@ -101,7 +101,7 @@ void handleManualMode() {
   String msg = "FILE-x";
   String counterStr = "";
   int fileCount = myDFPlayer.readFileCounts();
-  int counter = 1;
+  int counter = 0;
   lcd.setCursor(0, 0);
   lcd.print(msg);
   bool exit = false;
@@ -136,6 +136,7 @@ void handleManualMode() {
           actionKey = 0;
         } else if (actionKey == ENT) {
           myDFPlayer.play(counter);
+          actionKey = 0;
         }
         break;
       case BACK:
