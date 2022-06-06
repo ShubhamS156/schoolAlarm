@@ -113,8 +113,10 @@ void handleManualMode(){
       {
       case UP:
         counter++;
-        if(counter > fileCount)
+        if(counter > fileCount){
+          lcd.print(msg);
           break;
+        }
         else{
           msg += String(counter);
           lcd.print(msg);
@@ -122,8 +124,10 @@ void handleManualMode(){
         break;
       case DOWN:
         counter--;
-        if(counter < 0)
+        if(counter < 0){
+          lcd.print(msg);
           break;
+        }
         else{
           msg += String(counter);
           lcd.print(msg);
