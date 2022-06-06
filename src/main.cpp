@@ -10,6 +10,7 @@
 #include <freertos/task.h>
 #include "DFRobotDFPlayerMini.h"
 
+#define RELEASE 0
 #define UP 4
 #define DOWN 8
 #define MENU 12
@@ -117,32 +118,26 @@ void handleManualMode(){
         if(counter > fileCount){
           counter = fileCount;
         }
-        msg += String(counter);
-        lcd.print(msg);
         break;
       case DOWN:
         counter++;
         if(counter < 1){
           counter = 1;
         }
-        msg += String(counter);
-        lcd.print(msg);
         break;
       case ENT:
         myDFPlayer.play(counter);
         break;
+      case RELEASE: 
+        msg += String(counter);
+        lcd.print(msg);
       case BACK:
         exit = true;
       default:
-        msg += String(counter);
-        lcd.print(msg);
         break;
       }
-      delay(100); //affects inc/dec time of counter when button held
     }
-    else{
-      delay(500);
-    }
+    delay(500);
   }
   printSelected();
 }
