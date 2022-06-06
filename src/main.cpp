@@ -49,7 +49,6 @@ int cursorRow = 0;
 void printSelected() {
   const MenuItem *curr = obj.getMenuItem();
   int counter = 1;
-  lcd.clear();
   lcd.setCursor(0, 0);
   if (obj.getCurrentItemIndex() < 4) {
     // print top 4 items
@@ -141,6 +140,7 @@ void handleManualMode() {
         break;
       case BACK:
         exit = true;
+        lcd.clear();
       default:
         break;
       }
