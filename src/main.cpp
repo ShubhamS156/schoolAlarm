@@ -106,6 +106,7 @@ void handleManualMode(){
   while(!exit){
     if(ttp229.keyChange){
       int keyPressed = ttp229.GetKey16();
+      Serial.println(keyPressed);
       lcd.clear();
       lcd.setCursor(0,0);
       msg = "FILE-";
@@ -121,7 +122,7 @@ void handleManualMode(){
         break;
       case DOWN:
         counter--;
-        if(counter <= 0){
+        if(counter < 1){
           counter = 1;
         }
         msg += String(counter);
