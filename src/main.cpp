@@ -97,6 +97,7 @@ void keyChange() {
 }
 
 void handleManualMode(){
+  lcd.blink_off();
   String msg = "FILE-";
   String counterStr = "";
   int fileCount = myDFPlayer.readFileCounts();
