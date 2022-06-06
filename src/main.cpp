@@ -102,6 +102,36 @@ void handleManualMode(){
   lcd.setCursor(0,0);
   msg += String(counter);
   lcd.print(msg);
+  bool exit = false;
+  while(!exit){
+    if(ttp229.keyChange){
+      int keyPressed = ttp229.GetKey16();
+      switch (keyPressed)
+      {
+      case UP:
+        counter++;
+        msg += String(counter);
+        lcd.print(msg);
+        break;
+      case DOWN:
+        counter--;
+        msg += String(counter);
+        lcd.print(msg);
+        break;
+      case ENT:
+        myDFPlayer.play(counter);
+        break;
+      case BACK:
+        exit = true;
+      default:
+        break;
+      }
+    }
+    else{
+      delay(1000);
+    }
+  }
+  printSelected();
 }
 
 void setup() {
