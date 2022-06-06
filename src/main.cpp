@@ -110,11 +110,15 @@ void handleManualMode(){
       {
       case UP:
         counter++;
+        lcd.clear();
+        lcd.setCursor(0,0);
         msg += String(counter);
         lcd.print(msg);
         break;
       case DOWN:
         counter--;
+        lcd.clear();
+        lcd.setCursor(0,0);
         msg += String(counter);
         lcd.print(msg);
         break;
