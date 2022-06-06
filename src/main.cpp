@@ -49,6 +49,7 @@ int cursorRow = 0;
 void printSelected() {
   const MenuItem *curr = obj.getMenuItem();
   int counter = 1;
+  lcd.clear();
   lcd.setCursor(0, 0);
   if (obj.getCurrentItemIndex() < 4) {
     // print top 4 items
@@ -124,6 +125,7 @@ void handleManualMode() {
           Serial.printf("counter=%d\n", counter);
           counterStr = String(counter);
           lcd.print(counterStr);
+          actionKey = 0;
         } else if (actionKey == DOWN) {
           ++counter;
           if (counter > fileCount) {
@@ -132,6 +134,7 @@ void handleManualMode() {
           Serial.printf("counter=%d\n", counter);
           counterStr = String(counter);
           lcd.print(counterStr);
+          actionKey = 0;
         } else if (actionKey == ENT) {
           myDFPlayer.play(counter);
         }
