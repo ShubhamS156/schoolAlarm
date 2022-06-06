@@ -130,6 +130,7 @@ void handleManualMode(){
       default:
         break;
       }
+      delay(500); //affects inc/dec time of counter when button held
     }
     else{
       delay(1000);
