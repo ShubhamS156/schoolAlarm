@@ -134,6 +134,8 @@ void handleManualMode(){
       case BACK:
         exit = true;
       default:
+        msg += String(counter);
+        lcd.print(msg);
         break;
       }
       delay(1000); //affects inc/dec time of counter when button held
