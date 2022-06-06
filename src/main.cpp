@@ -106,21 +106,18 @@ void handleManualMode(){
   while(!exit){
     if(ttp229.keyChange){
       int keyPressed = ttp229.GetKey16();
+      lcd.clear();
+      lcd.setCursor(0,0);
+      msg = "FILE-";
       switch (keyPressed)
       {
       case UP:
         counter++;
-        lcd.clear();
-        lcd.setCursor(0,0);
         msg += String(counter);
-        lcd.print(msg);
         break;
       case DOWN:
         counter--;
-        lcd.clear();
-        lcd.setCursor(0,0);
         msg += String(counter);
-        lcd.print(msg);
         break;
       case ENT:
         myDFPlayer.play(counter);
@@ -130,6 +127,7 @@ void handleManualMode(){
       default:
         break;
       }
+      lcd.print(msg);
       delay(500); //affects inc/dec time of counter when button held
     }
     else{
