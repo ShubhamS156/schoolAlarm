@@ -113,10 +113,14 @@ void handleManualMode(){
       {
       case UP:
         counter++;
+        if(counter > fileCount)
+          break;
         msg += String(counter);
         break;
       case DOWN:
         counter--;
+        if(counter < 0)
+          break;
         msg += String(counter);
         break;
       case ENT:
@@ -128,7 +132,7 @@ void handleManualMode(){
         break;
       }
       lcd.print(msg);
-      delay(500); //affects inc/dec time of counter when button held
+      delay(1000); //affects inc/dec time of counter when button held
     }
     else{
       delay(1000);
