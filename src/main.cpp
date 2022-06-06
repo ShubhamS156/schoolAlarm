@@ -143,7 +143,6 @@ void handleManualMode(){
         break;
       }
     }
-    delay(500);
   }
   printSelected();
 }
