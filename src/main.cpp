@@ -1,3 +1,4 @@
+#include "DFRobotDFPlayerMini.h"
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 #include <MenuData.h>
@@ -8,7 +9,6 @@
 #include <esp_system.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
-#include "DFRobotDFPlayerMini.h"
 
 #define RELEASE 0
 #define UP 4
@@ -22,16 +22,16 @@
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 
-typedef struct{
+typedef struct {
   int time;
   int file;
-}Bell;
+} Bell;
 
-//TODO: store instances of these in eeprom
-typedef struct{
+// TODO: store instances of these in eeprom
+typedef struct {
   int countBells = 0;
-  Bell *bells;  //dynamic array ptr to num of bells 
-}ProgSched;
+  Bell *bells; // dynamic array ptr to num of bells
+} ProgSched;
 
 HardwareSerial mySoftwareSerial(2);
 DFRobotDFPlayerMini myDFPlayer;
@@ -96,44 +96,42 @@ void keyChange() {
   ttp229.keyChange = true;
 }
 
-void handleManualMode(){
+void handleManualMode() {
   lcd.blink_off();
   String msg = "FILE-";
   String counterStr = "";
   int fileCount = myDFPlayer.readFileCounts();
   int counter = 1;
-  lcd.setCursor(0,0);
+  lcd.setCursor(0, 0);
   lcd.print(msg);
   bool exit = false;
   int actionKey;
-  while(!exit){
-    if(ttp229.keyChange){
+  while (!exit) {
+    if (ttp229.keyChange) {
       int keyPressed = ttp229.GetKey16();
-      if(keyPressed!=0){
+      if (keyPressed != 0) {
         actionKey = keyPressed;
       }
       Serial.println(keyPressed);
-      lcd.setCursor(5,0);
-      switch (keyPressed)
-      {
+      lcd.setCursor(5, 0);
+      switch (keyPressed) {
       case UP:
         counter--;
-        if(counter < 1){
+        if (counter < 1) {
           counter = 1;
         }
         break;
       case DOWN:
         counter++;
-        if(counter > fileCount){
+        if (counter > fileCount) {
           counter = fileCount;
         }
         break;
-      case RELEASE: 
-        if(actionKey == UP || actionKey == DOWN){
+      case RELEASE:
+        if (actionKey == UP || actionKey == DOWN) {
           counterStr = String(counter);
           lcd.print(counterStr);
-        }
-        else if(actionKey == ENT){
+        } else if (actionKey == ENT) {
           myDFPlayer.play(counter);
         }
         break;
@@ -150,21 +148,22 @@ void handleManualMode(){
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  mySoftwareSerial.begin(9600,SERIAL_8N1,16,17);
+  mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
   /*---------------software serial and dfplayer init-----------------*/
-  if(!myDFPlayer.begin(mySoftwareSerial)){
-    Serial.println(myDFPlayer.readType(),HEX);
+  if (!myDFPlayer.begin(mySoftwareSerial)) {
+    Serial.println(myDFPlayer.readType(), HEX);
     Serial.println(F("Unable to begin:"));
     Serial.println(F("1.Please recheck the connection!"));
     Serial.println(F("2.Please insert the SD card!"));
-    while(true);
+    while (true)
+      ;
   }
   Serial.println(F("DFPlayer Mini online."));
-  myDFPlayer.setTimeOut(500); //Set serial communictaion time out 500ms
-  myDFPlayer.volume(15);  //Set volume value (0~30).
- myDFPlayer.EQ(DFPLAYER_EQ_BASS);
+  myDFPlayer.setTimeOut(500); // Set serial communictaion time out 500ms
+  myDFPlayer.volume(15);      // Set volume value (0~30).
+  myDFPlayer.EQ(DFPLAYER_EQ_BASS);
   myDFPlayer.outputDevice(DFPLAYER_DEVICE_SD);
- myDFPlayer.outputDevice(DFPLAYER_DEVICE_AUX);
+  myDFPlayer.outputDevice(DFPLAYER_DEVICE_AUX);
   /*---------rtc init------------*/
   rtc.Begin();
   RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
@@ -196,7 +195,7 @@ void setup() {
   lcd.blink();
   /*-----------keypad------------*/
   ttp229.begin(TTP229_SCL, TTP229_SDO);
-  attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
+  attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, FALLING);
   // printSelected();
 }
 
@@ -225,8 +224,8 @@ void keyPressTask(void *pvParameters) {
           printSelected();
         }
       case ENT:
-        if(currentSelectionCmdId == mnuCmdManual){
-          //call function to select mp3 file and play it.
+        if (currentSelectionCmdId == mnuCmdManual) {
+          // call function to select mp3 file and play it.
           handleManualMode();
         }
       default:
