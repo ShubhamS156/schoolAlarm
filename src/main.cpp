@@ -113,7 +113,7 @@ void handleManualMode(){
       switch (keyPressed)
       {
       case UP:
-        counter++;
+        counter--;
         if(counter > fileCount){
           counter = fileCount;
         }
@@ -121,7 +121,7 @@ void handleManualMode(){
         lcd.print(msg);
         break;
       case DOWN:
-        counter--;
+        counter++;
         if(counter < 1){
           counter = 1;
         }
@@ -196,7 +196,7 @@ void setup() {
   lcd.blink();
   /*-----------keypad------------*/
   ttp229.begin(TTP229_SCL, TTP229_SDO);
-  attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, FALLING);
+  attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
   // printSelected();
 }
 
