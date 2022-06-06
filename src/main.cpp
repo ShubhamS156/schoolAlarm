@@ -138,7 +138,7 @@ void handleManualMode(){
         lcd.print(msg);
         break;
       }
-      delay(500); //affects inc/dec time of counter when button held
+      delay(100); //affects inc/dec time of counter when button held
     }
     else{
       delay(1000);
