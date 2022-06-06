@@ -141,7 +141,7 @@ void handleManualMode(){
       delay(100); //affects inc/dec time of counter when button held
     }
     else{
-      delay(1000);
+      delay(500);
     }
   }
   printSelected();
