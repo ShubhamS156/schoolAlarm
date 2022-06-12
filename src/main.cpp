@@ -150,6 +150,65 @@ void handleManualMode() {
   printSelected();
 }
 
+/*task to check for keypress
+  it changes a flag which either tells loop() to do nothing
+  and task calls logic to handle current selection
+  OR
+  it tells loop() to run a logic continously. eg. draw homescreen and
+  keep updating time.
+*/
+void keyPressTask(void *pvParameters) {
+  while (1) {
+    if (ttp229.keyChange) {
+      int keyPressed = ttp229.GetKey16();
+      Serial.printf("key pressed:%d\n", keyPressed);
+      int currId;
+      switch ((keyPressed)) {
+      case UP:
+        if (obj.moveToPreviousItem()) {
+          Serial.println("going up");
+          printSelected();
+        }
+        break;
+      case DOWN:
+        if (obj.moveToNextItem()) {
+          Serial.println("going down");
+          printSelected();
+        }
+      case ENT:
+        currId = obj.getCurrentItemCmdId();
+        if (currId == mnuCmdHome) {
+          currentSelectionCmdId == mnuCmdHome;
+        } else if (currId == mnuCmdManual) {
+          // call function to select mp3 file and play it.
+          currentSelectionCmdId == mnuCmdManual;
+          handleManualMode();
+        }
+        break;
+      case BACK:
+        if (obj.currentMenuHasParent()) {
+          obj.ascendToParentMenu();
+          lcd.clear();
+          lcd.setCursor(0, 0);
+          printSelected();
+        } else {
+          lcd.clear();
+          lcd.println("g**nd mein ghus jao");
+          lcd.println("peeche ja ja kr");
+        }
+        break;
+      case MENU:
+        obj.reset();
+        lcd.clear();
+        printSelected();
+        break;
+      default:
+        break;
+      }
+    }
+  }
+}
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -205,63 +264,6 @@ void setup() {
   xTaskCreate(keyPressTask, "keypress", 4096, NULL, 3, NULL);
   // printSelected();
 }
-
-/*task to check for keypress
-  it changes a flag which either tells loop() to do nothing
-  and task calls logic to handle current selection
-  OR
-  it tells loop() to run a logic continously. eg. draw homescreen and
-  keep updating time.
-*/
-void keyPressTask(void *pvParameters) {
-  while (1) {
-    if (ttp229.keyChange) {
-      int keyPressed = ttp229.GetKey16();
-      Serial.printf("key pressed:%d\n", keyPressed);
-      switch ((keyPressed)) {
-      case UP:
-        if (obj.moveToPreviousItem()) {
-          Serial.println("going up");
-          printSelected();
-        }
-        break;
-      case DOWN:
-        if (obj.moveToNextItem()) {
-          Serial.println("going down");
-          printSelected();
-        }
-      case ENT:
-        int currId = obj.getCurrentItemCmdId();
-        if (currId == mnuCmdHome) {
-          currentSelectionCmdId == mnuCmdHome;
-        } else if (currId == mnuCmdManual) {
-          // call function to select mp3 file and play it.
-          currentSelectionCmdId == mnuCmdManual;
-          handleManualMode();
-        }
-      case BACK:
-        if (obj.currentMenuHasParent()) {
-          obj.ascendToParentMenu();
-          lcd.clear();
-          lcd.setCursor(0, 0);
-          printSelected();
-        } else {
-          lcd.clear();
-          lcd.println("g**nd mein ghus jao");
-          lcd.println("peeche ja ja kr");
-        }
-        break;
-      case MENU:
-        obj.reset();
-        lcd.clear();
-        printSelected();
-      default:
-        break;
-      }
-    }
-  }
-}
-
 /*
 - updates current time
 - will loop logic or will wait for flag
