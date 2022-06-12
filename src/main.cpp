@@ -194,10 +194,10 @@ void keyPressTask(void *pvParameters) {
         } else {
           lcd.clear();
           lcd.println("g**nd mein ghus jao");
-          lcd.println("peeche ja ja kr");
         }
         break;
       case MENU:
+        currentSelectionCmdId = -1; // root screen
         obj.reset();
         lcd.clear();
         printSelected();
