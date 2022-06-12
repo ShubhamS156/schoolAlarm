@@ -97,6 +97,7 @@ void keyChange() {
 }
 
 void handleManualMode() {
+  lcd.clear();
   lcd.blink_off();
   String msg = "FILE-x";
   String counterStr = "";
