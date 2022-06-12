@@ -206,7 +206,9 @@ void keyPressTask(void *pvParameters) {
         break;
       }
     }
+    vTaskDelay(50 / portTICK_PERIOD_MS);
   }
+  vTaskDelete(NULL);
 }
 
 void setup() {
