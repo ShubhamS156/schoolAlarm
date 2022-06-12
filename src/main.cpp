@@ -175,6 +175,7 @@ void keyPressTask(void *pvParameters) {
           Serial.println("going down");
           printSelected();
         }
+        break;
       case ENT:
         currId = obj.getCurrentItemCmdId();
         if (currId == mnuCmdHome) {
