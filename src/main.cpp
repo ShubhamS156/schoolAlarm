@@ -150,8 +150,6 @@ void handleManualMode() {
     }
   }
   printSelected();
-  Serial.println("exitingngiagg manual mode");
-  delay(2000);
 }
 
 /*task to check for keypress
