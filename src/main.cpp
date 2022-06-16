@@ -149,6 +149,7 @@ void handleManualMode() {
       }
     }
   }
+  counter = 0; // cleaning counter? misbheaving
   printSelected();
 }
 
