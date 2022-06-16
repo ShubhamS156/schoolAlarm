@@ -142,6 +142,7 @@ void handleManualMode() {
         break;
       case BACK:
         exit = true;
+        obj.ascendToParentMenu();
         lcd.clear();
       default:
         break;
