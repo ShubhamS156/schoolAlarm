@@ -149,8 +149,9 @@ void handleManualMode() {
       }
     }
   }
-  counter = 0; // cleaning counter? misbheaving
   printSelected();
+  Serial.println("exitingngiagg manual mode");
+  delay(2000);
 }
 
 /*task to check for keypress
