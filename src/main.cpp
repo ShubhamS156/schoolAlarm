@@ -203,6 +203,9 @@ void keyPressTask(void *pvParameters) {
         } else if (currId == mnuCmdExam) {
           currentMode = EXAM;
           Serial.printf("mode=%d\n", currentMode);
+        } else if (currId == mnuCmdOff) {
+          currentMode = UNDEFINED;
+          Serial.printf("mode=%d\n", currentMode);
         }
         break;
       case BACK:

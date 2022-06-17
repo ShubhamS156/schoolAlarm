@@ -1,6 +1,7 @@
 1: build homescreen and load it in as default ->DONE
 2: logic for manual and program select
 3: store program schedules in eeprom
+4. Put currentMode in eeprom on change
 Move utility functions to a header file from main.cpp
 Take care of how much deep you go in child menu as internally MenuManager has stack 
 depth of 5.

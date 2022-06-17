@@ -22,6 +22,7 @@ enum sampleMenuCommandId {
   mnuCmdSummer,
   mnuCmdWinter,
   mnuCmdExam,
+  mnuCmdOFF,
   mnuCmdProgram,
   mnuCmdSetDateTime,
   mnuCmdProgSched,
@@ -154,9 +155,11 @@ const MenuItem sampleMenu_List_4_7[] = {
 const char sampleMenu_3_1[] = "3.1 Summer";
 const char sampleMenu_3_2[] = "3.2 Winter";
 const char sampleMenu_3_3[] = "3.3 Exam";
+const char sampleMenu_3_4[] = "3.4 NA";
 const MenuItem sampleMenu_List_3[] = {{mnuCmdSummer, sampleMenu_3_1},
                                       {mnuCmdWinter, sampleMenu_3_2},
                                       {mnuCmdExam, sampleMenu_3_3},
+                                      {mnuCmdOFF, sampleMenu_3_4},
                                       {mnuCmdBack, sampleMenu_back}};
 
 const char sampleMenu_4_1[] = "4.1 Set Date Time";
@@ -205,6 +208,8 @@ case mnuCmdSummer :
 case mnuCmdWinter :
         break;
 case mnuCmdExam :
+        break;
+case mnuCmdOFF :
         break;
 case mnuCmdSetDateTime :
         break;
@@ -297,9 +302,10 @@ VarPrefix="sampleMenu" UseNumbering="true" IncludeNumberHierarchy="true"
 ExitText="Exit" AvrProgMem="false" /><MenuItems><Item Id="Home"
 Name="Home"/><Item Id="Manual" Name="Manual"/><Item Id="ModeSelect" Name="Mode
 Selection"><MenuItems><Item Id="Summer" Name="Summer"></Item><Item Id="Winter"
-Name="Winter"></Item><Item Id="Exam" Name="Exam"></Item></MenuItems></Item><Item
-Id="Program" Name="ProgrammingMode"><MenuItems><Item Id="SetDateTime" Name="Set
-Date Time"/><Item Id="ProgSched" Name="Program Schedule"><MenuItems><Item
+Name="Winter"></Item><Item Id="Exam" Name="Exam"></Item><Item Id="OFF"
+Name="NA"></Item></MenuItems></Item><Item Id="Program"
+Name="ProgrammingMode"><MenuItems><Item Id="SetDateTime" Name="Set Date
+Time"/><Item Id="ProgSched" Name="Program Schedule"><MenuItems><Item
 Id="SelectSchedule" Name="Select Schedule"/><Item Id="TotalBell"
 Name="TotalBells"/></MenuItems></Item><Item Id="SummerWorkDays" Name="Summer
 Work Days"><MenuItems><Item Id="SumMon" Name="Monday"/><Item Id="SumTue"
