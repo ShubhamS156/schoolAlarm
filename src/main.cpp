@@ -75,6 +75,7 @@ void printSelected() {
   const MenuItem *curr = obj.getMenuItem();
   int counter = 1;
   lcd.setCursor(0, 0);
+  lcd.clear();
   if (obj.getCurrentItemIndex() < 4) {
     // print top 4 items
     for (int i = 0; i < 4; i++) {
@@ -86,7 +87,6 @@ void printSelected() {
     Serial.printf("Setting cursor to %d\n", obj.getCurrentItemIndex());
   } else {
     // print the selected and above 3
-    lcd.clear();
     for (int i = obj.getCurrentItemIndex() - 3; i <= obj.getCurrentItemIndex();
          i++) {
       lcd.print(curr[i].name);
