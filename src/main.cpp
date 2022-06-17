@@ -191,6 +191,7 @@ void keyPressTask(void *pvParameters) {
         } else if (currId == mnuCmdModeSelect) {
           if (obj.currentItemHasChildren()) {
             obj.descendToChildMenu();
+            lcd.clear();
             printSelected();
           }
         } else if (currId == mnuCmdSummer) {
