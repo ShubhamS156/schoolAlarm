@@ -35,6 +35,29 @@ typedef struct {
   Bell *bells; // dynamic array ptr to num of bells
 } ProgSched;
 
+byte verticalLine[8] = {B00100, B00100, B00100, B00100,
+                        B00100, B00100, B00100, B00100};
+
+byte char2[8] = {B00000, B00000, B00000, B11100,
+                 B00100, B00100, B00100, B00100};
+
+byte char1[8] = {0b00000, 0b00000, 0b00000, 0b00111,
+                 0b00100, 0b00100, 0b00100, 0b00100};
+
+byte char3[8] = {0b00100, 0b00100, 0b00100, 0b00111,
+                 0b00000, 0b00000, 0b00000, 0b00000};
+
+byte char4[8] = {0b00100, 0b00100, 0b00100, 0b11100,
+                 0b00000, 0b00000, 0b00000, 0b00000};
+
+void createCustomCharacters() {
+  lcd.createChar(0, verticalLine);
+  lcd.createChar(1, char1);
+  lcd.createChar(2, char2);
+  lcd.createChar(3, char3);
+  lcd.createChar(4, char4);
+}
+
 HardwareSerial mySoftwareSerial(2);
 DFRobotDFPlayerMini myDFPlayer;
 LiquidCrystal_I2C lcd(0x23, 20, 4);
@@ -81,7 +104,27 @@ void printSelected() {
 /*draw homescreen*/
 void drawHome(RtcDateTime &dt) {
   lcd.clear();
+  lcd.setCursor(1, 0);
+  lcd.print("------------------");
+  lcd.setCursor(1, 3);
+  lcd.print("------------------");
   lcd.setCursor(0, 1);
+  lcd.write(byte(0));
+  lcd.setCursor(0, 2);
+  lcd.write(byte(0));
+  lcd.setCursor(19, 1);
+  lcd.write(byte(0));
+  lcd.setCursor(19, 2);
+  lcd.write(byte(0));
+  lcd.setCursor(0, 0);
+  lcd.write(byte(1));
+  lcd.setCursor(19, 0);
+  lcd.write(byte(2));
+  lcd.setCursor(0, 3);
+  lcd.write(byte(3));
+  lcd.setCursor(19, 3);
+  lcd.write(byte(4));
+  lcd.setCursor(2, 1);
   char datestring[20];
   snprintf_P(datestring, countof(datestring),
              PSTR("%02u/%02u/%04u %02u:%02u:%02u"), dt.Month(), dt.Day(),
