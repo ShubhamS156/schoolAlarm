@@ -326,9 +326,9 @@ void setup() {
   /*-----------keypad------------*/
   ttp229.begin(TTP229_SCL, TTP229_SDO);
   attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
+  createCustomCharacters(); // creating custom characters
   /*-------------keyPress Task----------*/
   xTaskCreate(keyPressTask, "keypress", 4096, NULL, 3, NULL);
-  // printSelected();
 }
 /*
 - updates current time
