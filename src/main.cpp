@@ -159,6 +159,7 @@ void drawHome(RtcDateTime &dt) {
   lcd.setCursor(13, 1);
   lcd.print("Mode");
   lcd.setCursor(14, 2);
+  lcd.print("    "); // to clear prev mode being shown
   if (currentMode == SUMMER) {
     lcd.print("Sum");
   } else if (currentMode == WINTER) {
@@ -293,6 +294,12 @@ void keyPressTask(void *pvParameters) {
         }
         break;
       case BACK:
+        if (currId == mnuCmdHome) {
+          currentSelectionCmdId = -1; // root screen
+          obj.reset();
+          lcd.clear();
+          printSelected();
+        }
         currentSelectionCmdId = -1;
         if (obj.currentMenuHasParent()) {
           obj.ascendToParentMenu();
