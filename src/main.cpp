@@ -228,7 +228,6 @@ void keyPressTask(void *pvParameters) {
         Serial.printf("currId=%d\n", currId);
         currentSelectionCmdId = currId;
         if (currId == mnuCmdHome) {
-          printFrame();
         } else if (currId == mnuCmdManual) {
           // call function to select mp3 file and play it.
           handleManualMode();
@@ -324,11 +323,11 @@ void setup() {
   rtc.SetSquareWavePin(DS3231SquareWavePin_ModeNone);
   /*-----------lcd init---------*/
   lcd.begin();
+  createCustomCharacters(); // creating custom characters
   lcd.blink();
   /*-----------keypad------------*/
   ttp229.begin(TTP229_SCL, TTP229_SDO);
   attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
-  createCustomCharacters(); // creating custom characters
   /*-------------keyPress Task----------*/
   xTaskCreate(keyPressTask, "keypress", 4096, NULL, 3, NULL);
 }
@@ -358,6 +357,7 @@ void loop() {
 
   switch (currentSelectionCmdId) {
   case mnuCmdHome:
+    printFrame();
     drawHome(now);
     break;
   default:
