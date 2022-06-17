@@ -155,6 +155,7 @@ void printTime(RtcDateTime &tm) {
 /*draw homescreen*/
 void drawHome(RtcDateTime &dt) {
   lcd.blink_off();
+  lcd.noCursor();
   printTime(dt);
   lcd.setCursor(13, 1);
   lcd.print("Mode");
