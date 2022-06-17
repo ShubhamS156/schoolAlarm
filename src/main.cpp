@@ -134,7 +134,7 @@ void printTime(RtcDateTime &tm) {
   lcd.print((tm.Year()));
 
   String seconds, minutes;
-  lcd.setCursor(2, 2);
+  lcd.setCursor(3, 2);
   lcd.print(tm.Hour());
   lcd.print(":");
   if (tm.Minute() < 10) {
@@ -156,9 +156,9 @@ void printTime(RtcDateTime &tm) {
 void drawHome(RtcDateTime &dt) {
   lcd.blink_off();
   printTime(dt);
-  lcd.setCursor(12, 1);
+  lcd.setCursor(13, 1);
   lcd.println("Mode");
-  lcd.setCursor(13, 2);
+  lcd.setCursor(14, 2);
   if (currentMode == SUMMER) {
     lcd.print("Sum");
   } else if (currentMode == WINTER) {
