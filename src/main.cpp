@@ -126,7 +126,7 @@ void printFrame() {
   lcd.setCursor(2, 1);
 }
 void printTime(RtcDateTime &tm) {
-  lcd.setCursor(5, 1);
+  lcd.setCursor(2, 1);
   lcd.print(tm.Month());
   lcd.print("/");
   lcd.print(tm.Day());
@@ -134,7 +134,7 @@ void printTime(RtcDateTime &tm) {
   lcd.print((tm.Year()));
 
   String seconds, minutes;
-  lcd.setCursor(6, 2);
+  lcd.setCursor(2, 2);
   lcd.print(tm.Hour());
   lcd.print(":");
   if (tm.Minute() < 10) {
@@ -154,7 +154,20 @@ void printTime(RtcDateTime &tm) {
 
 /*draw homescreen*/
 void drawHome(RtcDateTime &dt) {
+  lcd.blink_off();
   printTime(dt);
+  lcd.setCursor(12, 1);
+  lcd.println("Mode");
+  lcd.setCursor(13, 2);
+  if (currentMode == SUMMER) {
+    lcd.print("Sum");
+  } else if (currentMode == WINTER) {
+    lcd.print("Wint");
+  } else if (currentMode == EXAM) {
+    lcd.print("Exm");
+  } else {
+    lcd.print("Na");
+  }
   // lcd.setCursor(2, 1);
   // char datestring[20];
   // snprintf_P(datestring, countof(datestring),
