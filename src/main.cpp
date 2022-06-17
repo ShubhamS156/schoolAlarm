@@ -240,6 +240,12 @@ void handleManualMode() {
   printSelected();
 }
 
+void gotoRoot() {
+  currentSelectionCmdId = -1; // root screen
+  obj.reset();
+  lcd.clear();
+  printSelected();
+}
 /*task to check for keypress
   it changes a flag which either tells loop() to do nothing
   and task calls logic to handle current selection
@@ -270,6 +276,7 @@ void keyPressTask(void *pvParameters) {
         Serial.printf("currId=%d\n", currId);
         currentSelectionCmdId = currId;
         if (currId == mnuCmdHome) {
+          lcd.clear();
         } else if (currId == mnuCmdManual) {
           // call function to select mp3 file and play it.
           handleManualMode();
@@ -285,12 +292,15 @@ void keyPressTask(void *pvParameters) {
         } else if (currId == mnuCmdWinter) {
           currentMode = WINTER;
           Serial.printf("mode=%d\n", currentMode);
+          gotoRoot();
         } else if (currId == mnuCmdExam) {
           currentMode = EXAM;
           Serial.printf("mode=%d\n", currentMode);
+          gotoRoot();
         } else if (currId == mnuCmdOff) {
           currentMode = UNDEFINED;
           Serial.printf("mode=%d\n", currentMode);
+          gotoRoot();
         }
         break;
       case BACK:
@@ -309,10 +319,7 @@ void keyPressTask(void *pvParameters) {
         }
         break;
       case MENU:
-        currentSelectionCmdId = -1; // root screen
-        obj.reset();
-        lcd.clear();
-        printSelected();
+        gotoRoot();
         break;
       default:
         break;
