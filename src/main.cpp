@@ -182,6 +182,7 @@ void keyPressTask(void *pvParameters) {
         break;
       case ENT:
         currId = obj.getCurrentItemCmdId();
+        Serial.printf("currId=%d\n", currId);
         if (currId == mnuCmdHome) {
           currentSelectionCmdId == mnuCmdHome;
         } else if (currId == mnuCmdManual) {
