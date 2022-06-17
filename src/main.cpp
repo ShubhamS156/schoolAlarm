@@ -188,6 +188,11 @@ void keyPressTask(void *pvParameters) {
           // call function to select mp3 file and play it.
           currentSelectionCmdId == mnuCmdManual;
           handleManualMode();
+        } else if (currId == mnuCmdModeSelect) {
+          if (obj.currentItemHasChildren()) {
+            obj.descendToChildMenu();
+            printSelected();
+          }
         } else if (currId == mnuCmdSummer) {
           currentMode = SUMMER;
           Serial.printf("mode=%d\n", currentMode);
