@@ -159,8 +159,7 @@ const char sampleMenu_3_4[] = "4 NA";
 const MenuItem sampleMenu_List_3[] = {{mnuCmdSummer, sampleMenu_3_1},
                                       {mnuCmdWinter, sampleMenu_3_2},
                                       {mnuCmdExam, sampleMenu_3_3},
-                                      {mnuCmdOFF, sampleMenu_3_4},
-                                      {mnuCmdBack, sampleMenu_back}};
+                                      {mnuCmdOFF, sampleMenu_3_4}};
 
 const char sampleMenu_4_1[] = "4.1 Set Date Time";
 const char sampleMenu_4_2[] = "4.2 Program Schedule";
@@ -195,8 +194,7 @@ const MenuItem sampleMenu_Root[] = {
     {mnuCmdModeSelect, sampleMenu_3, sampleMenu_List_3,
      menuCount(sampleMenu_List_3)},
     {mnuCmdProgram, sampleMenu_4, sampleMenu_List_4,
-     menuCount(sampleMenu_List_4)},
-    {mnuCmdBack, sampleMenu_exit}};
+     menuCount(sampleMenu_List_4)}};
 
 /*
 case mnuCmdHome :
