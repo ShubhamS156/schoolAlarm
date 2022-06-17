@@ -86,6 +86,7 @@ void printSelected() {
     Serial.printf("Setting cursor to %d\n", obj.getCurrentItemIndex());
   } else {
     // print the selected and above 3
+    lcd.clear();
     for (int i = obj.getCurrentItemIndex() - 3; i <= obj.getCurrentItemIndex();
          i++) {
       lcd.print(curr[i].name);
@@ -101,9 +102,7 @@ void printSelected() {
   lcd.cursor();
 }
 
-/*draw homescreen*/
-void drawHome(RtcDateTime &dt) {
-  lcd.clear();
+void printFrame() {
   lcd.setCursor(1, 0);
   lcd.print("------------------");
   lcd.setCursor(1, 3);
@@ -125,13 +124,15 @@ void drawHome(RtcDateTime &dt) {
   lcd.setCursor(19, 3);
   lcd.write(byte(4));
   lcd.setCursor(2, 1);
+}
+/*draw homescreen*/
+void drawHome(RtcDateTime &dt) {
+  lcd.setCursor(2, 1);
   char datestring[20];
   snprintf_P(datestring, countof(datestring),
              PSTR("%02u/%02u/%04u %02u:%02u:%02u"), dt.Month(), dt.Day(),
              dt.Year(), dt.Hour(), dt.Minute(), dt.Second());
   Serial.print(datestring);
-  lcd.clear();
-  lcd.setCursor(0, 1);
   lcd.print(datestring);
   delay(1000); // delay here or in caller?
 }
@@ -227,12 +228,11 @@ void keyPressTask(void *pvParameters) {
         Serial.printf("currId=%d\n", currId);
         currentSelectionCmdId = currId;
         if (currId == mnuCmdHome) {
-          currentSelectionCmdId == mnuCmdHome; // redundant
+          printFrame();
         } else if (currId == mnuCmdManual) {
           // call function to select mp3 file and play it.
           handleManualMode();
         } else if (currId == mnuCmdModeSelect) {
-          currentSelectionCmdId = mnuCmdModeSelect;
           if (obj.currentItemHasChildren()) {
             obj.descendToChildMenu();
             lcd.clear();
