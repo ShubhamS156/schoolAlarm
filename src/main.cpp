@@ -157,7 +157,7 @@ void drawHome(RtcDateTime &dt) {
   lcd.blink_off();
   printTime(dt);
   lcd.setCursor(13, 1);
-  // lcd.println("Mode");
+  lcd.print("Mode");
   lcd.setCursor(14, 2);
   if (currentMode == SUMMER) {
     lcd.print("Sum");
