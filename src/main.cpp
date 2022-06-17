@@ -275,22 +275,23 @@ void keyPressTask(void *pvParameters) {
         currId = obj.getCurrentItemCmdId();
         Serial.printf("currId=%d\n", currId);
         currentSelectionCmdId = currId;
+        if (obj.currentItemHasChildren()) {
+          lcd.clear();
+          obj.descendToChildMenu();
+          printSelected();
+        }
         if (currId == mnuCmdHome) {
           lcd.clear();
         } else if (currId == mnuCmdManual) {
           // call function to select mp3 file and play it.
           handleManualMode();
-        } else if (currId == mnuCmdModeSelect) {
-          if (obj.currentItemHasChildren()) {
-            obj.descendToChildMenu();
-            lcd.clear();
-            printSelected();
-          }
-        } else if (currId == mnuCmdSummer) {
+        } else if (currId == mnuCmdSummer) { // summer selected in mode
+                                             // selection
           currentMode = SUMMER;
           Serial.printf("mode=%d\n", currentMode);
           gotoRoot();
-        } else if (currId == mnuCmdWinter) {
+        } else if (currId == mnuCmdWinter) { // summer selected in mode
+                                             // selection
           currentMode = WINTER;
           Serial.printf("mode=%d\n", currentMode);
           gotoRoot();
