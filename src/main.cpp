@@ -22,6 +22,8 @@
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 
+enum Modes { SUMMER = 0, WINTER, EXAM, UNDEFINED };
+
 typedef struct {
   int time;
   int file;
@@ -41,7 +43,7 @@ TTP229 ttp229;
 MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
 
 int currentSelectionCmdId = mnuCmdHome;
-
+int currentMode = UNDEFINED;
 int cursorRow = 0;
 /*
  * Prints 4 items including the selected one.
@@ -186,6 +188,15 @@ void keyPressTask(void *pvParameters) {
           // call function to select mp3 file and play it.
           currentSelectionCmdId == mnuCmdManual;
           handleManualMode();
+        } else if (currId == mnuCmdSummer) {
+          currentMode = SUMMER;
+          Serial.printf("mode=%d\n", currentMode);
+        } else if (currId == mnuCmdWinter) {
+          currentMode = WINTER;
+          Serial.printf("mode=%d\n", currentMode);
+        } else if (currId == mnuCmdExam) {
+          currentMode = EXAM;
+          Serial.printf("mode=%d\n", currentMode);
         }
         break;
       case BACK:
