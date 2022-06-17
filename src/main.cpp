@@ -162,11 +162,10 @@ void handleManualMode() {
   keep updating time.
 */
 void keyPressTask(void *pvParameters) {
+  int currId;
   while (1) {
     if (ttp229.keyChange) {
       int keyPressed = ttp229.GetKey16();
-      Serial.printf("key pressed:%d\n", keyPressed);
-      int currId;
       switch ((keyPressed)) {
       case UP:
         if (obj.moveToPreviousItem()) {
@@ -206,9 +205,6 @@ void keyPressTask(void *pvParameters) {
           lcd.clear();
           lcd.setCursor(0, 0);
           printSelected();
-        } else {
-          lcd.clear();
-          lcd.println("g**nd mein ghus jao");
         }
         break;
       case MENU:
@@ -221,6 +217,7 @@ void keyPressTask(void *pvParameters) {
         break;
       }
     }
+    currId = -1;
     vTaskDelay(50 / portTICK_PERIOD_MS);
   }
   vTaskDelete(NULL);
