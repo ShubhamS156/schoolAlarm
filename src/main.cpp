@@ -50,14 +50,6 @@ byte char3[8] = {0b00100, 0b00100, 0b00100, 0b00111,
 byte char4[8] = {0b00100, 0b00100, 0b00100, 0b11100,
                  0b00000, 0b00000, 0b00000, 0b00000};
 
-void createCustomCharacters() {
-  lcd.createChar(0, verticalLine);
-  lcd.createChar(1, char1);
-  lcd.createChar(2, char2);
-  lcd.createChar(3, char3);
-  lcd.createChar(4, char4);
-}
-
 HardwareSerial mySoftwareSerial(2);
 DFRobotDFPlayerMini myDFPlayer;
 LiquidCrystal_I2C lcd(0x23, 20, 4);
@@ -68,6 +60,14 @@ MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
 int currentSelectionCmdId = mnuCmdHome;
 int currentMode = UNDEFINED;
 int cursorRow = 0;
+
+void createCustomCharacters() {
+  lcd.createChar(0, verticalLine);
+  lcd.createChar(1, char1);
+  lcd.createChar(2, char2);
+  lcd.createChar(3, char3);
+  lcd.createChar(4, char4);
+}
 /*
  * Prints 4 items including the selected one.
  */
