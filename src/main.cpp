@@ -125,15 +125,43 @@ void printFrame() {
   lcd.write(byte(4));
   lcd.setCursor(2, 1);
 }
+void printTime(RtcDateTime &tm) {
+  lcd.setCursor(5, 1);
+  lcd.print(tm.Month());
+  lcd.print("/");
+  lcd.print(tm.Day());
+  lcd.print("/");
+  lcd.print((tm.Year()));
+
+  String seconds, minutes;
+  lcd.setCursor(6, 2);
+  lcd.print(tm.Hour());
+  lcd.print(":");
+  if (tm.Minute() < 10) {
+    minutes = "0" + String(tm.Minute());
+    lcd.print(minutes);
+  } else {
+    lcd.print(tm.Minute());
+  }
+  lcd.print(":");
+  if (tm.Second() < 10) {
+    seconds = "0" + String(tm.Second());
+    lcd.print(seconds);
+  } else {
+    lcd.print(tm.Second());
+  }
+}
+
 /*draw homescreen*/
 void drawHome(RtcDateTime &dt) {
-  lcd.setCursor(2, 1);
-  char datestring[20];
-  snprintf_P(datestring, countof(datestring),
-             PSTR("%02u/%02u/%04u %02u:%02u:%02u"), dt.Month(), dt.Day(),
-             dt.Year(), dt.Hour(), dt.Minute(), dt.Second());
-  Serial.print(datestring);
-  lcd.print(datestring);
+  printTime(dt);
+  // lcd.setCursor(2, 1);
+  // char datestring[20];
+  // snprintf_P(datestring, countof(datestring),
+  //            PSTR("%02u/%02u/%04u %02u:%02u:%02u"), dt.Month(), dt.Day(),
+  //            dt.Year(), dt.Hour(), dt.Minute(), dt.Second());
+  // Serial.print(datestring);
+  // lcd.print(datestring);
   delay(1000); // delay here or in caller?
 }
 
