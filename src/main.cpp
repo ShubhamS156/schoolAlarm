@@ -160,15 +160,14 @@ void drawHome(RtcDateTime &dt) {
   lcd.setCursor(13, 1);
   lcd.print("Mode");
   lcd.setCursor(14, 2);
-  lcd.print(" "); // to clear prev mode being shown
   if (currentMode == SUMMER) {
     lcd.print("Sum");
   } else if (currentMode == WINTER) {
-    lcd.print("Wint");
+    lcd.print("Win");
   } else if (currentMode == EXAM) {
     lcd.print("Exm");
-  } else {
-    lcd.print("Na");
+  } else if (currentMode == UNDEFINED) {
+    lcd.print("N/a");
   }
   // lcd.setCursor(2, 1);
   // char datestring[20];
@@ -290,6 +289,7 @@ void keyPressTask(void *pvParameters) {
         } else if (currId == mnuCmdSummer) {
           currentMode = SUMMER;
           Serial.printf("mode=%d\n", currentMode);
+          gotoRoot();
         } else if (currId == mnuCmdWinter) {
           currentMode = WINTER;
           Serial.printf("mode=%d\n", currentMode);
@@ -298,7 +298,7 @@ void keyPressTask(void *pvParameters) {
           currentMode = EXAM;
           Serial.printf("mode=%d\n", currentMode);
           gotoRoot();
-        } else if (currId == mnuCmdOff) {
+        } else if (currId == mnuCmdOFF) {
           currentMode = UNDEFINED;
           Serial.printf("mode=%d\n", currentMode);
           gotoRoot();
