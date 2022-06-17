@@ -225,13 +225,14 @@ void keyPressTask(void *pvParameters) {
       case ENT:
         currId = obj.getCurrentItemCmdId();
         Serial.printf("currId=%d\n", currId);
+        currentSelectionCmdId = currId;
         if (currId == mnuCmdHome) {
-          currentSelectionCmdId == mnuCmdHome;
+          currentSelectionCmdId == mnuCmdHome; // redundant
         } else if (currId == mnuCmdManual) {
           // call function to select mp3 file and play it.
-          currentSelectionCmdId == mnuCmdManual;
           handleManualMode();
         } else if (currId == mnuCmdModeSelect) {
+          currentSelectionCmdId = mnuCmdModeSelect;
           if (obj.currentItemHasChildren()) {
             obj.descendToChildMenu();
             lcd.clear();
@@ -252,6 +253,7 @@ void keyPressTask(void *pvParameters) {
         }
         break;
       case BACK:
+        currentSelectionCmdId = -1;
         if (obj.currentMenuHasParent()) {
           obj.ascendToParentMenu();
           lcd.clear();
