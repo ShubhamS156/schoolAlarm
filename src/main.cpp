@@ -60,6 +60,8 @@ MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
 int currentSelectionCmdId = mnuCmdHome;
 int currentMode = UNDEFINED;
 int cursorRow = 0;
+uint8_t arrow[8] = {0x00, 0x04, 0x06, 0x1f,
+                    0x06, 0x04, 0x00}; // Send 0,4,6,1F,6,4,0 for the arrow
 
 void createCustomCharacters() {
   lcd.createChar(0, verticalLine);
@@ -67,6 +69,7 @@ void createCustomCharacters() {
   lcd.createChar(2, char2);
   lcd.createChar(3, char3);
   lcd.createChar(4, char4);
+  lcd.createChar(5, arrow);
 }
 /*
  * Prints 4 items including the selected one.
@@ -95,11 +98,7 @@ void printSelected() {
     lcd.setCursor(0, (obj.getCurrentItemIndex() % 4));
     Serial.printf("Setting cursor to %d\n", (obj.getCurrentItemIndex() % 4));
   }
-  lcd.cursor();
-  delay(300);
-  lcd.noCursor();
-  delay(300);
-  lcd.cursor();
+  lcd.write(5);
 }
 
 void printFrame() {
