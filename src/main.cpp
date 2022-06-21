@@ -261,12 +261,20 @@ void keyPressTask(void *pvParameters) {
       int keyPressed = ttp229.GetKey16();
       switch ((keyPressed)) {
       case UP:
+        if (currentSelectionCmdId ==
+            mnuCmdHome) { // nothinh happends on pressing up down in selected
+                          // home
+          break;
+        }
         if (obj.moveToPreviousItem()) {
           Serial.println("going up");
           printSelected();
         }
         break;
       case DOWN:
+        if (currentSelectionCmdId == mnuCmdHome) {
+          break;
+        }
         if (obj.moveToNextItem()) {
           Serial.println("going down");
           printSelected();
@@ -310,7 +318,7 @@ void keyPressTask(void *pvParameters) {
         if (currId == mnuCmdHome) {
           // kuch ni
         }
-        currentSelectionCmdId = -1;
+        currentSelectionCmdId = -1; // clear selection
         if (obj.currentMenuHasParent()) {
           obj.ascendToParentMenu();
           lcd.clear();
