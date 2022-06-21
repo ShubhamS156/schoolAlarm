@@ -76,9 +76,11 @@ void createCustomCharacters() {
  */
 void printSelected() {
   const MenuItem *curr = obj.getMenuItem();
+  if (curr != sampleMenu_Root) {
+    lcd.clear();
+  }
   int counter = 1;
   lcd.setCursor(0, 0);
-  lcd.clear();
   if (obj.getCurrentItemIndex() < 4) {
     // print top 4 items
     for (int i = 0; i < 4; i++) {
