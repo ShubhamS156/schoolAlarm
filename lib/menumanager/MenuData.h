@@ -161,13 +161,13 @@ const MenuItem sampleMenu_List_3[] = {{mnuCmdSummer, sampleMenu_3_1},
                                       {mnuCmdExam, sampleMenu_3_3},
                                       {mnuCmdOFF, sampleMenu_3_4}};
 
-const char sampleMenu_4_1[] = "4.1 Set Date Time";
-const char sampleMenu_4_2[] = "4.2 Program Schedule";
-const char sampleMenu_4_3[] = "4.3 Summer Work Days";
-const char sampleMenu_4_4[] = "4.4 Winter Work Days";
-const char sampleMenu_4_5[] = "4.5 Exam Days";
-const char sampleMenu_4_6[] = "4.6 Program Monthly";
-const char sampleMenu_4_7[] = "4.7 Calendar Holiday";
+const char sampleMenu_4_1[] = "Set Date Time";
+const char sampleMenu_4_2[] = "Program Schedule";
+const char sampleMenu_4_3[] = "Summer Work Days";
+const char sampleMenu_4_4[] = "Winter Work Days";
+const char sampleMenu_4_5[] = "Exam Days";
+const char sampleMenu_4_6[] = "Program Monthly";
+const char sampleMenu_4_7[] = "Calendar Holiday";
 const MenuItem sampleMenu_List_4[] = {
     {mnuCmdSetDateTime, sampleMenu_4_1},
     {mnuCmdProgSched, sampleMenu_4_2, sampleMenu_List_4_2,
