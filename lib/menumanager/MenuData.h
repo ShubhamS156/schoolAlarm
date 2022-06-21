@@ -184,10 +184,10 @@ const MenuItem sampleMenu_List_4[] = {
      menuCount(sampleMenu_List_4_7)},
     {mnuCmdBack, sampleMenu_back}};
 
-const char sampleMenu_1[] = "1 Home";
-const char sampleMenu_2[] = "2 Manual";
-const char sampleMenu_3[] = "3 Mode Selection";
-const char sampleMenu_4[] = "4 ProgrammingMode";
+const char sampleMenu_1[] = " Home";
+const char sampleMenu_2[] = " Manual";
+const char sampleMenu_3[] = " Mode Selection";
+const char sampleMenu_4[] = " ProgrammingMode";
 const MenuItem sampleMenu_Root[] = {
     {mnuCmdHome, sampleMenu_1},
     {mnuCmdManual, sampleMenu_2},
