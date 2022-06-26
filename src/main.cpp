@@ -25,7 +25,8 @@
 enum Modes { SUMMER = 0, WINTER, EXAM, UNDEFINED };
 
 typedef struct {
-  int time;
+  int hour;
+  int min;
   int file;
 } Bell;
 
@@ -50,18 +51,19 @@ byte char3[8] = {0b00100, 0b00100, 0b00100, 0b00111,
 byte char4[8] = {0b00100, 0b00100, 0b00100, 0b11100,
                  0b00000, 0b00000, 0b00000, 0b00000};
 
+int currentSelectionCmdId = mnuCmdHome;
+int currentMode = UNDEFINED;
+int cursorRow = 0;
+int currProgSched = 0;
+uint8_t arrow[8] = {0x00, 0x04, 0x06, 0x1f,
+                    0x06, 0x04, 0x00}; // Send 0,4,6,1F,6,4,0 for the arrow
+
 HardwareSerial mySoftwareSerial(2);
 DFRobotDFPlayerMini myDFPlayer;
 LiquidCrystal_I2C lcd(0x23, 20, 4);
 RtcDS3231<TwoWire> rtc(Wire);
 TTP229 ttp229;
 MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
-
-int currentSelectionCmdId = mnuCmdHome;
-int currentMode = UNDEFINED;
-int cursorRow = 0;
-uint8_t arrow[8] = {0x00, 0x04, 0x06, 0x1f,
-                    0x06, 0x04, 0x00}; // Send 0,4,6,1F,6,4,0 for the arrow
 
 void createCustomCharacters() {
   lcd.createChar(0, verticalLine);
@@ -185,6 +187,16 @@ void keyChange() {
   ttp229.keyChange = true;
 }
 
+void handleSetDateTime() {
+  // start wifimanager
+  // get time from ntpclient?
+}
+
+void handleProgSched() {
+  // number of schedules fixed to 24.
+  lcd.clear();
+  String base = "P-";
+}
 void handleManualMode() {
   lcd.clear();
   lcd.blink_off();
@@ -262,7 +274,7 @@ void keyPressTask(void *pvParameters) {
       switch ((keyPressed)) {
       case UP:
         if (currentSelectionCmdId ==
-            mnuCmdHome) { // nothinh happends on pressing up down in selected
+            mnuCmdHome) { // nothing happends on pressing up down in selected
                           // home
           break;
         }
@@ -312,6 +324,10 @@ void keyPressTask(void *pvParameters) {
           currentMode = UNDEFINED;
           Serial.printf("mode=%d\n", currentMode);
           gotoRoot();
+        } else if (currId == mnuCmdSetDateTime) {
+          handleSetDateTime();
+        } else if (currId == mnuCmdProgSched) {
+          handleProgSched();
         }
         break;
       case BACK:
