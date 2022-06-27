@@ -11,3 +11,4 @@ depth of 5.
 
 -------------BUGS-------------
 1. Entering manual mode first time works but after going and coming back counter shown for file no. stays -1 or 1
+2. cursor resets to top of screen when scrolling down a screen in programming mode.

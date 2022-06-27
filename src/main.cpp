@@ -19,6 +19,7 @@
 #define ENT 16
 #define TTP229_SDO 25
 #define TTP229_SCL 26
+#define PROGSCHEDSIZE 24
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 
@@ -36,6 +37,9 @@ typedef struct {
   Bell *bells; // dynamic array ptr to num of bells
 } ProgSched;
 
+// we have 24 schedule. 8 for sum,wint,exm
+ProgSched schedules[PROGSCHEDSIZE];
+int currentSchedule = 0;
 byte verticalLine[8] = {B00100, B00100, B00100, B00100,
                         B00100, B00100, B00100, B00100};
 
@@ -54,7 +58,7 @@ byte char4[8] = {0b00100, 0b00100, 0b00100, 0b11100,
 int currentSelectionCmdId = mnuCmdHome;
 int currentMode = UNDEFINED;
 int cursorRow = 0;
-int currProgSched = 0;
+
 uint8_t arrow[8] = {0x00, 0x04, 0x06, 0x1f,
                     0x06, 0x04, 0x00}; // Send 0,4,6,1F,6,4,0 for the arrow
 
@@ -195,7 +199,45 @@ void handleSetDateTime() {
 void handleProgSched() {
   // number of schedules fixed to 24.
   lcd.clear();
+  lcd.setCursor(0, 0);
   String base = "P-";
+  String counterStr = "";
+  int schedCounter = 0;
+  lcd.print(base);
+  int actionKey;
+  bool exit = false;
+  while (!exit) {
+    if (ttp229.keyChange) {
+      int keyPressed = ttp229.GetKey16();
+      lcd.setCursor(2, 0);
+      if (keyPressed != 0) {
+        actionKey = keyPressed;
+      }
+      switch (keyPressed) {
+      case RELEASE:
+        if (actionKey == UP) {
+          --schedCounter;
+          if (schedCounter < 1) {
+            schedCounter = 1;
+          }
+          counterStr = String(schedCounter);
+          lcd.print(counterStr);
+          actionKey = 0;
+        } else if (actionKey == DOWN) {
+          ++schedCounter;
+          if (schedCounter > PROGSCHEDSIZE) {
+            schedCounter = PROGSCHEDSIZE;
+          }
+          counterStr = String(schedCounter);
+          lcd.print(counterStr);
+        }
+        break;
+
+      default:
+        break;
+      }
+    }
+  }
 }
 void handleManualMode() {
   lcd.clear();
