@@ -104,7 +104,7 @@ void printSelected() {
       lcd.setCursor(0, counter++);
     }
     lcd.setCursor(0, (obj.getCurrentItemIndex() % 4));
-    Serial.printf("Setting cursor to %d\n", (obj.getCurrentItemIndex() % 4));
+    Serial.printf("Setting cursor to %d\n", (obj.getCurrentItemIndex() - 1));
   }
   lcd.write(5);
 }
