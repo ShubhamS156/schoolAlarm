@@ -161,13 +161,13 @@ const MenuItem sampleMenu_List_3[] = {{mnuCmdSummer, sampleMenu_3_1},
                                       {mnuCmdExam, sampleMenu_3_3},
                                       {mnuCmdOFF, sampleMenu_3_4}};
 
-const char sampleMenu_4_1[] = "Set Date Time";
-const char sampleMenu_4_2[] = "Program Schedule";
-const char sampleMenu_4_3[] = "Summer Work Days";
-const char sampleMenu_4_4[] = "Winter Work Days";
-const char sampleMenu_4_5[] = "Exam Days";
-const char sampleMenu_4_6[] = "Program Monthly";
-const char sampleMenu_4_7[] = "Calendar Holiday";
+const char sampleMenu_4_1[] = " SET DATE TIME";
+const char sampleMenu_4_2[] = " PROGRAM SCHEDULE";
+const char sampleMenu_4_3[] = " SUMMER WORK DAYS";
+const char sampleMenu_4_4[] = " WINTER WORK DAYS";
+const char sampleMenu_4_5[] = " EXAM DAYS";
+const char sampleMenu_4_6[] = " PROGRAM MONTHLY";
+const char sampleMenu_4_7[] = " CALENDAR HOLIDAY";
 const MenuItem sampleMenu_List_4[] = {
     {mnuCmdSetDateTime, sampleMenu_4_1},
     {mnuCmdProgSched, sampleMenu_4_2, sampleMenu_List_4_2,
@@ -184,10 +184,10 @@ const MenuItem sampleMenu_List_4[] = {
      menuCount(sampleMenu_List_4_7)},
     {mnuCmdBack, sampleMenu_back}};
 
-const char sampleMenu_1[] = " Home";
-const char sampleMenu_2[] = " Manual";
-const char sampleMenu_3[] = " Mode Selection";
-const char sampleMenu_4[] = " ProgrammingMode";
+const char sampleMenu_1[] = " HOME";
+const char sampleMenu_2[] = " MANUAL";
+const char sampleMenu_3[] = " MODE SELECTION";
+const char sampleMenu_4[] = " PROGRAMMINGMODE";
 const MenuItem sampleMenu_Root[] = {
     {mnuCmdHome, sampleMenu_1},
     {mnuCmdManual, sampleMenu_2},

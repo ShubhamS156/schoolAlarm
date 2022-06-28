@@ -230,6 +230,8 @@ void handleProgSched() {
           }
           counterStr = String(schedCounter);
           lcd.print(counterStr);
+          actionKey = 0;
+        } else if (actionKey == ENT) {
         }
         break;
 
