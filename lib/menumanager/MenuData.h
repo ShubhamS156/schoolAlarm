@@ -182,7 +182,7 @@ const MenuItem sampleMenu_List_4[] = {
      menuCount(sampleMenu_List_4_6)},
     {mnuCmdCalendarHoliday, sampleMenu_4_7, sampleMenu_List_4_7,
      menuCount(sampleMenu_List_4_7)},
-    {mnuCmdBack, sampleMenu_back}};
+};
 
 const char sampleMenu_1[] = " HOME";
 const char sampleMenu_2[] = " MANUAL";
