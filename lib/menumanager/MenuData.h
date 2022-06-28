@@ -152,10 +152,10 @@ const MenuItem sampleMenu_List_4_7[] = {
     {mnuCmdNov, sampleMenu_4_7_11},  {mnuCmdDec, sampleMenu_4_7_12},
     {mnuCmdBack, sampleMenu_back}};
 
-const char sampleMenu_3_1[] = "1 Summer";
-const char sampleMenu_3_2[] = "2 Winter";
-const char sampleMenu_3_3[] = "3 Exam";
-const char sampleMenu_3_4[] = "4 NA";
+const char sampleMenu_3_1[] = " Summer";
+const char sampleMenu_3_2[] = " Winter";
+const char sampleMenu_3_3[] = " Exam";
+const char sampleMenu_3_4[] = " NA";
 const MenuItem sampleMenu_List_3[] = {{mnuCmdSummer, sampleMenu_3_1},
                                       {mnuCmdWinter, sampleMenu_3_2},
                                       {mnuCmdExam, sampleMenu_3_3},
