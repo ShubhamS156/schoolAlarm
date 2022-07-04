@@ -68,6 +68,7 @@ LiquidCrystal_I2C lcd(0x23, 20, 4);
 RtcDS3231<TwoWire> rtc(Wire);
 TTP229 ttp229;
 MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
+RtcDateTime now; // global to get current time.
 
 void createCustomCharacters() {
   lcd.createChar(0, verticalLine);
@@ -192,9 +193,47 @@ void keyChange() {
   ttp229.keyChange = true;
 }
 
+// get time from user, set it into rtc.
 void handleSetDateTime() {
-  // start wifimanager
-  // get time from ntpclient?
+  int h = 0, m = 0;
+  int actionKey = -1;
+  String msg = "00:00";
+  lcd.clear();
+  bool exit = false;
+  int counter = 0;
+  while (!exit) {
+    if (ttp229.keyChange) {
+      int keyPressed = ttp229.GetKey16();
+      if (keyPressed != 0) {
+        actionKey = keyPressed;
+      }
+      switch (keyPressed) {
+      case RELEASE:
+        if (actionKey == ENT) {
+          now = rtc.GetDateTime();
+          RtcDateTime toSet(now.Year(), now.Month(), now.Day(), h, m, 0);
+          rtc.SetDateTime(toSet);
+          gotoRoot();
+        } else {
+          if (counter == 0) {
+            h = 10 * actionKey;
+            counter++;
+          } else if (counter == 1) {
+            h += actionKey;
+            counter++;
+          } else if (counter == -1) {
+            m = 10 * actionKey;
+            counter--;
+          } else if (counter == -2) {
+            m += actionKey;
+            counter--;
+          } else {
+            counter = -1;
+          }
+        }
+      }
+    }
+  }
 }
 
 void handleProgSched() {
@@ -480,8 +519,7 @@ void loop() {
     }
   }
 
-  RtcDateTime now = rtc.GetDateTime(); // getting the current time
-
+  now = rtc.GetDateTime(); // getting the current time
   switch (currentSelectionCmdId) {
   case mnuCmdHome:
     printFrame();
