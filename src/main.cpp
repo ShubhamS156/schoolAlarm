@@ -274,6 +274,7 @@ void handleSetDateTime() {
           rtc.SetDateTime(toSet);
           exit = true;
         } else if (actionKey != -1) {
+          Serial.println("actionKey="+actionKey);
           parseTime(timeArr, counter, actionKey);
           lcd.print(String(timeArr[counter]));
           if (counter == 1) {
