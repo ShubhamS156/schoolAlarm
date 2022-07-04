@@ -258,7 +258,6 @@ void handleSetDateTime() {
   lcd.setCursor(0, 0);
   bool exit = false;
   int counter = 0;
-
   while (!exit) {
     if (ttp229.keyChange) {
       int keyPressed = ttp229.GetKey16();
@@ -285,6 +284,7 @@ void handleSetDateTime() {
         actionKey = -1;
         break;
       default:
+        break;
       }
     }
   }
