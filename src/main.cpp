@@ -256,29 +256,30 @@ void handleSetDateTime() {
   lcd.setCursor(0, 0);
   bool exit = false;
   int counter = 0;
-  while (!exit) {
-    if (ttp229.keyChange) {
-      int keyPressed = ttp229.GetKey16();
-      if (keyPressed != 0) {
-        actionKey = keyPressed;
-      }
-      if (actionKey == ENT) {
-        h = 10 * timeArr[0] + timeArr[1];
-        m = 10 * timeArr[2] + timeArr[3];
-        now = rtc.GetDateTime();
-        RtcDateTime toSet(now.Year(), now.Month(), now.Day(), h, m, 0);
-        rtc.SetDateTime(toSet);
-        exit = true;
-      } else {
-        parseTime(timeArr, counter, actionKey);
-        lcd.print(String(timeArr[counter]));
-        if (counter == 1) {
-          lcd.print(":");
-        }
-        counter++;
-      }
-    }
-  }
+
+  // while (!exit) {
+  //   if (ttp229.keyChange) {
+  //     int keyPressed = ttp229.GetKey16();
+  //     if (keyPressed != 0) {
+  //       actionKey = keyPressed;
+  //     }
+  //     if (actionKey == ENT) {
+  //       h = 10 * timeArr[0] + timeArr[1];
+  //       m = 10 * timeArr[2] + timeArr[3];
+  //       now = rtc.GetDateTime();
+  //       RtcDateTime toSet(now.Year(), now.Month(), now.Day(), h, m, 0);
+  //       rtc.SetDateTime(toSet);
+  //       exit = true;
+  //     } else {
+  //       parseTime(timeArr, counter, actionKey);
+  //       lcd.print(String(timeArr[counter]));
+  //       if (counter == 1) {
+  //         lcd.print(":");
+  //       }
+  //       counter++;
+  //     }
+  //   }
+  // }
 }
 
 void handleProgSched() {
