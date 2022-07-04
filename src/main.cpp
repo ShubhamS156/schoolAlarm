@@ -64,7 +64,7 @@ uint8_t arrow[8] = {0x00, 0x04, 0x06, 0x1f,
 
 HardwareSerial mySoftwareSerial(2);
 DFRobotDFPlayerMini myDFPlayer;
-LiquidCrystal_I2C lcd(0x23, 20, 4);
+LiquidCrystal_I2C lcd(0x27, 20, 4);
 RtcDS3231<TwoWire> rtc(Wire);
 TTP229 ttp229;
 MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
