@@ -193,6 +193,13 @@ void keyChange() {
   ttp229.keyChange = true;
 }
 
+void gotoRoot() {
+  currentSelectionCmdId = -1; // root screen
+  obj.reset();
+  lcd.clear();
+  printSelected();
+}
+
 // get time from user, set it into rtc.
 void handleSetDateTime() {
   int h = 0, m = 0;
@@ -337,12 +344,6 @@ void handleManualMode() {
   printSelected();
 }
 
-void gotoRoot() {
-  currentSelectionCmdId = -1; // root screen
-  obj.reset();
-  lcd.clear();
-  printSelected();
-}
 /*task to check for keypress
   it changes a flag which either tells loop() to do nothing
   and task calls logic to handle current selection
