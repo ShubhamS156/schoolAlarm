@@ -273,7 +273,7 @@ void handleSetDateTime() {
           RtcDateTime toSet(now.Year(), now.Month(), now.Day(), h, m, 0);
           rtc.SetDateTime(toSet);
           exit = true;
-        } else {
+        } else if (actionKey != -1) {
           parseTime(timeArr, counter, actionKey);
           lcd.print(String(timeArr[counter]));
           if (counter == 1) {
