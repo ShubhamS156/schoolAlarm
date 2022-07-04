@@ -242,6 +242,8 @@ void parseTime(int timeArr[], int counter, int actionKey) {
   case ZERO:
     timeArr[counter] = 0;
     break;
+  default:
+    timeArr[counter] = -1;
   }
 }
 
@@ -257,29 +259,35 @@ void handleSetDateTime() {
   bool exit = false;
   int counter = 0;
 
-  // while (!exit) {
-  //   if (ttp229.keyChange) {
-  //     int keyPressed = ttp229.GetKey16();
-  //     if (keyPressed != 0) {
-  //       actionKey = keyPressed;
-  //     }
-  //     if (actionKey == ENT) {
-  //       h = 10 * timeArr[0] + timeArr[1];
-  //       m = 10 * timeArr[2] + timeArr[3];
-  //       now = rtc.GetDateTime();
-  //       RtcDateTime toSet(now.Year(), now.Month(), now.Day(), h, m, 0);
-  //       rtc.SetDateTime(toSet);
-  //       exit = true;
-  //     } else {
-  //       parseTime(timeArr, counter, actionKey);
-  //       lcd.print(String(timeArr[counter]));
-  //       if (counter == 1) {
-  //         lcd.print(":");
-  //       }
-  //       counter++;
-  //     }
-  //   }
-  // }
+  while (!exit) {
+    if (ttp229.keyChange) {
+      int keyPressed = ttp229.GetKey16();
+      if (keyPressed != 0) {
+        actionKey = keyPressed;
+      }
+      switch (keyPressed) {
+      case RELEASE:
+        if (actionKey == ENT) {
+          h = 10 * timeArr[0] + timeArr[1];
+          m = 10 * timeArr[2] + timeArr[3];
+          now = rtc.GetDateTime();
+          RtcDateTime toSet(now.Year(), now.Month(), now.Day(), h, m, 0);
+          rtc.SetDateTime(toSet);
+          exit = true;
+        } else {
+          parseTime(timeArr, counter, actionKey);
+          lcd.print(String(timeArr[counter]));
+          if (counter == 1) {
+            lcd.print(":");
+          }
+          counter++;
+        }
+        actionKey = -1;
+        break;
+      default:
+      }
+    }
+  }
 }
 
 void handleProgSched() {
