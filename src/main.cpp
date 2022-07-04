@@ -261,6 +261,7 @@ void handleSetDateTime() {
   while (!exit) {
     if (ttp229.keyChange) {
       int keyPressed = ttp229.GetKey16();
+      Serial.println(keyPressed);
       if (keyPressed != 0) {
         actionKey = keyPressed;
       }
@@ -274,7 +275,7 @@ void handleSetDateTime() {
           rtc.SetDateTime(toSet);
           exit = true;
         } else if (actionKey != -1) {
-          Serial.println("actionKey="+actionKey);
+          Serial.println("actionKey=" + actionKey);
           parseTime(timeArr, counter, actionKey);
           lcd.print(String(timeArr[counter]));
           if (counter == 1) {
