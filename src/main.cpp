@@ -11,10 +11,20 @@
 #include <freertos/task.h>
 
 #define RELEASE 0
+#define ONE 1
+#define TWO 2
+#define THREE 3
 #define UP 4
+#define FOUR 5
+#define FIVE 6
+#define SIX 7
 #define DOWN 8
+#define SEVEN 9
+#define EIGHT 10
+#define NINE 11
 #define MENU 12
 #define DELETE 13
+#define ZERO 14
 #define BACK 15
 #define ENT 16
 #define TTP229_SDO 25
@@ -200,12 +210,50 @@ void gotoRoot() {
   printSelected();
 }
 
+void parseTime(int timeArr[], int counter, int actionKey) {
+  switch (actionKey) {
+  case ONE:
+    timeArr[counter] = 1;
+    break;
+  case TWO:
+    timeArr[counter] = 2;
+    break;
+  case THREE:
+    timeArr[counter] = 3;
+    break;
+  case FOUR:
+    timeArr[counter] = 4;
+    break;
+  case FIVE:
+    timeArr[counter] = 5;
+    break;
+  case SIX:
+    timeArr[counter] = 6;
+    break;
+  case SEVEN:
+    timeArr[counter] = 7;
+    break;
+  case EIGHT:
+    timeArr[counter] = 8;
+    break;
+  case NINE:
+    timeArr[counter] = 9;
+    break;
+  case ZERO:
+    timeArr[counter] = 0;
+    break;
+  }
+}
+
 // get time from user, set it into rtc.
 void handleSetDateTime() {
   int h = 0, m = 0;
+  int timeArr[4] = {0, 0, 0, 0};
   int actionKey = -1;
   String msg = "00:00";
   lcd.clear();
+  lcd.print(msg);
+  lcd.setCursor(0, 0);
   bool exit = false;
   int counter = 0;
   while (!exit) {
@@ -214,30 +262,20 @@ void handleSetDateTime() {
       if (keyPressed != 0) {
         actionKey = keyPressed;
       }
-      switch (keyPressed) {
-      case RELEASE:
-        if (actionKey == ENT) {
-          now = rtc.GetDateTime();
-          RtcDateTime toSet(now.Year(), now.Month(), now.Day(), h, m, 0);
-          rtc.SetDateTime(toSet);
-          gotoRoot();
-        } else {
-          if (counter == 0) {
-            h = 10 * actionKey;
-            counter++;
-          } else if (counter == 1) {
-            h += actionKey;
-            counter++;
-          } else if (counter == -1) {
-            m = 10 * actionKey;
-            counter--;
-          } else if (counter == -2) {
-            m += actionKey;
-            counter--;
-          } else {
-            counter = -1;
-          }
+      if (actionKey == ENT) {
+        h = 10 * timeArr[0] + timeArr[1];
+        m = 10 * timeArr[2] + timeArr[3];
+        now = rtc.GetDateTime();
+        RtcDateTime toSet(now.Year(), now.Month(), now.Day(), h, m, 0);
+        rtc.SetDateTime(toSet);
+        exit = true;
+      } else {
+        parseTime(timeArr, counter, actionKey);
+        lcd.print(String(timeArr[counter]));
+        if (counter == 1) {
+          lcd.print(":");
         }
+        counter++;
       }
     }
   }
