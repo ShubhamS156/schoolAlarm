@@ -252,6 +252,7 @@ void handleSetDateTime() {
   int h = 0, m = 0;
   int timeArr[4] = {0, 0, 0, 0};
   int actionKey = -1;
+  int keyPressed;
   String msg = "00:00";
   lcd.clear();
   lcd.print(msg);
@@ -260,7 +261,8 @@ void handleSetDateTime() {
   int counter = 0;
   while (!exit) {
     if (ttp229.keyChange) {
-      int keyPressed = ttp229.GetKey16();
+      keyPressed = ttp229.GetKey16();
+      Serial.print("keyPressed=");
       Serial.println(keyPressed);
       if (keyPressed != 0) {
         actionKey = keyPressed;
