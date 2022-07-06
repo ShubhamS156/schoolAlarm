@@ -407,6 +407,8 @@ void keyPressTask(void *pvParameters) {
   while (1) {
     if (ttp229.keyChange) {
       int keyPressed = ttp229.GetKey16();
+      Serial.print("keyPressed=");
+      Serial.println(keyPressed);
       switch ((keyPressed)) {
       case UP:
         if (currentSelectionCmdId ==
