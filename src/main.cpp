@@ -395,17 +395,17 @@ void handleProgSched()
         {
           currentSchedule = schedCounter;
           // get the number of bells for the selected schedule.
-          int i = 0;
+          bool bellCountDone = false;
+          int i=0;
           int bellPressed = -1;
           int bellKey = -1;
           int bellBuff[2]; // need not more than 99 bells?
           lcd.clear();
           lcd.print("Bells=");
-          while (i<2)
+          while (!bellCountDone)
           {
             if (ttp229.keyChange)
             {
-              Serial.println("key for bell pressed");
               bellPressed = ttp229.GetKey16();
               if (bellPressed != 0)
               {
@@ -419,6 +419,9 @@ void handleProgSched()
                   parseKeys(bellBuff, i, bellKey);
                   lcd.print(String(bellBuff[i]));
                   i++;
+                  if(i==2){
+                    bellCountDone = true;
+                  }
                 }
                 break;
               }
