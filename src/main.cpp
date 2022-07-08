@@ -504,7 +504,7 @@ void handleProgSched()
               if (ttp229.keyChange)
               {
                 int bellFilePressed = ttp229.GetKey16();
-                if (bellFilePressed != RELEASE)
+                if (bellFilePressed != 0)
                 {
                   bellFileKey = bellFilePressed;
                 }
@@ -534,8 +534,8 @@ void handleProgSched()
                     Serial.printf("Bell=%d File=%d\n", setBellCounter + 1, bellFileCounter);
                     bellFileDone = true; // exit loop here.
                   }
+                  bellFileKey = -1;
                 }
-                bellFileKey = -1;
               }
               else
               {
