@@ -503,6 +503,7 @@ void handleProgSched()
             {
               if (ttp229.keyChange)
               {
+                lcd.setCursor(5,0);
                 int bellFilePressed = ttp229.GetKey16();
                 if (bellFilePressed != 0)
                 {
@@ -517,7 +518,6 @@ void handleProgSched()
                     {
                       bellFileCounter = 0;
                     }
-                    lcd.setCursor(5,0);
                     lcd.print(String(bellFileCounter));
                   }
                   else if (bellFileKey == DOWN)
@@ -527,7 +527,6 @@ void handleProgSched()
                     {
                       bellFileCounter = fileCount;
                     }
-                    lcd.setCursor(5,0);
                     lcd.print(String(bellFileCounter));
                   }
                   else if (bellFileKey == ENT)
