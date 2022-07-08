@@ -473,7 +473,7 @@ void handleProgSched()
                     {
                       lcd.print(":");
                     }
-                    else if(i==4){
+                    else if(i>3){
                       bellCurrentDone = true;
                     }
                     i++;
