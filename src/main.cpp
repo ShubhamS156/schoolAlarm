@@ -347,6 +347,7 @@ void handleSetDateTime()
 void handleProgSched()
 {
   // number of schedules fixed to 24.
+  Serial.println("Starting handleProgSched");
   lcd.clear();
   lcd.setCursor(0, 0);
   String base = "P-";
@@ -699,6 +700,7 @@ void keyPressTask(void *pvParameters)
         }
         else if (currId == mnuCmdProgSched)
         {
+          Serial.println("Calling handleProgSched");
           handleProgSched();
         }
         break;
