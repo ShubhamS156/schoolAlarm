@@ -492,7 +492,7 @@ void handleProgSched()
             schedules[schedCounter].bells->min = bellTimeBuff[2] * 10 + bellTimeBuff[3] * 1;
             Serial.printf("Time= %d:%d\n",schedules[schedCounter].bells->hour,schedules[schedCounter].bells->min);
             lcd.clear();
-            lcd.print("FILE-");
+            lcd.print("FILE=");
             Serial.println("Get file");
             i = 0;
             bool bellFileDone = false;
@@ -517,6 +517,7 @@ void handleProgSched()
                     {
                       bellFileCounter = 0;
                     }
+                    lcd.setCursor(5,0);
                     lcd.print(String(bellFileCounter));
                   }
                   else if (bellFileKey == DOWN)
@@ -526,6 +527,7 @@ void handleProgSched()
                     {
                       bellFileCounter = fileCount;
                     }
+                    lcd.setCursor(5,0);
                     lcd.print(String(bellFileCounter));
                   }
                   else if (bellFileKey == ENT)
