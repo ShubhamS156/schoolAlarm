@@ -401,10 +401,11 @@ void handleProgSched()
           int bellBuff[2]; // need not more than 99 bells?
           lcd.clear();
           lcd.print("Bells=");
-          while (i < 2)
+          while (i<2)
           {
             if (ttp229.keyChange)
             {
+              Serial.println("key for bell pressed");
               bellPressed = ttp229.GetKey16();
               if (bellPressed != 0)
               {
@@ -425,6 +426,7 @@ void handleProgSched()
             }
             else
             {
+              Serial.println("no key");
               delay(10); // test for this
             }
           }
