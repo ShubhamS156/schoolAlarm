@@ -393,6 +393,7 @@ void handleProgSched()
         }
         else if (actionKey == ENT)
         {
+          Serial.printf("Program=%d\n",schedCounter+1);
           currentSchedule = schedCounter;
           // get the number of bells for the selected schedule.
           bool bellCountDone = false;
@@ -410,6 +411,7 @@ void handleProgSched()
               if (bellPressed != 0)
               {
                 bellKey = bellPressed;
+                Serial.printf("BellKey=%d\n",bellKey);
               }
               switch (bellPressed)
               {
