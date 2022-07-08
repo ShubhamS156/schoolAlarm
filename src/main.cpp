@@ -451,8 +451,9 @@ void handleProgSched()
             lcd.print(String(setBellCounter + 1));
             Serial.printf("Processing Bell=%d\n",setBellCounter+1);
             lcd.setCursor(1, 0); // 2nd row to display time to be entered.
+            bool bellCurrentDone = false;
             int i = 0;
-            while (i < 4)
+            while (!bellCurrentDone)
             {
               if (ttp229.keyChange)
               {
@@ -471,15 +472,18 @@ void handleProgSched()
                     {
                       lcd.print(":");
                     }
+                    else if(i==4){
+                      bellCurrentDone = true;
+                    }
                     i++;
                   }
+                  bellTimeKey = -1;
                 }
               }
               else
               {
                 delay(10);
               }
-              bellTimeKey = -1;
             }
 
             // got time, set in the current bell
@@ -537,6 +541,7 @@ void handleProgSched()
             }
           }
         }
+        actionKey = -1;
         break;
 
       default:
