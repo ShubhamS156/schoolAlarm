@@ -473,9 +473,9 @@ void handleProgSched()
                     {
                       lcd.print(":");
                     }
-                    else if(i>4){
+                    if(bellTimeKey == ENT && i>3){
                       bellCurrentDone = true;
-                    }
+                    } 
                     i++;
                   }
                   bellTimeKey = -1;
@@ -495,10 +495,11 @@ void handleProgSched()
             lcd.print("FILE-");
             Serial.println("Get file");
             i = 0;
+            bool bellFileDone = false;
             int fileCount = myDFPlayer.readFileCounts();
             int bellFileKey = -1;
             int bellFileCounter = 0;
-            while (i < 1)
+            while (!bellFileDone)
             {
               if (ttp229.keyChange)
               {
@@ -531,7 +532,7 @@ void handleProgSched()
                   {
                     schedules[schedCounter].bells->file = bellFileCounter;
                     Serial.printf("Bell=%d File=%d\n", setBellCounter + 1, bellFileCounter);
-                    i++; // exit loop here.
+                    bellFileDone = true; // exit loop here.
                   }
                 }
                 bellFileKey = -1;
