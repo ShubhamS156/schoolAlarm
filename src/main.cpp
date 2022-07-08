@@ -33,16 +33,24 @@
 
 #define countof(a) (sizeof(a) / sizeof(a[0]))
 
-enum Modes { SUMMER = 0, WINTER, EXAM, UNDEFINED };
+enum Modes
+{
+  SUMMER = 0,
+  WINTER,
+  EXAM,
+  UNDEFINED
+};
 
-typedef struct {
+typedef struct
+{
   int hour;
   int min;
   int file;
 } Bell;
 
 // TODO: store instances of these in eeprom
-typedef struct {
+typedef struct
+{
   int countBells = 0;
   Bell *bells; // dynamic array ptr to num of bells
 } ProgSched;
@@ -80,7 +88,8 @@ TTP229 ttp229;
 MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
 RtcDateTime now; // global to get current time.
 
-void createCustomCharacters() {
+void createCustomCharacters()
+{
   lcd.createChar(0, verticalLine);
   lcd.createChar(1, char1);
   lcd.createChar(2, char2);
@@ -91,26 +100,33 @@ void createCustomCharacters() {
 /*
  * Prints 4 items including the selected one.
  */
-void printSelected() {
+void printSelected()
+{
   const MenuItem *curr = obj.getMenuItem();
-  if (curr != sampleMenu_Root) {
+  if (curr != sampleMenu_Root)
+  {
     lcd.clear();
   }
   int counter = 1;
   lcd.setCursor(0, 0);
-  if (obj.getCurrentItemIndex() < 4) {
+  if (obj.getCurrentItemIndex() < 4)
+  {
     // print top 4 items
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
       lcd.print(curr[i].name);
       Serial.println(curr[i].name);
       lcd.setCursor(0, counter++);
     }
     lcd.setCursor(0, obj.getCurrentItemIndex());
     Serial.printf("Setting cursor to %d\n", obj.getCurrentItemIndex());
-  } else {
+  }
+  else
+  {
     // print the selected and above 3
     for (int i = obj.getCurrentItemIndex() - 3; i <= obj.getCurrentItemIndex();
-         i++) {
+         i++)
+    {
       lcd.print(curr[i].name);
       lcd.setCursor(0, counter++);
     }
@@ -121,7 +137,8 @@ void printSelected() {
   lcd.write(5);
 }
 
-void printFrame() {
+void printFrame()
+{
   lcd.setCursor(1, 0);
   lcd.print("------------------");
   lcd.setCursor(1, 3);
@@ -144,7 +161,8 @@ void printFrame() {
   lcd.write(byte(4));
   lcd.setCursor(2, 1);
 }
-void printTime(RtcDateTime &tm) {
+void printTime(RtcDateTime &tm)
+{
   lcd.setCursor(2, 1);
   lcd.print(tm.Month());
   lcd.print("/");
@@ -156,36 +174,50 @@ void printTime(RtcDateTime &tm) {
   lcd.setCursor(3, 2);
   lcd.print(tm.Hour());
   lcd.print(":");
-  if (tm.Minute() < 10) {
+  if (tm.Minute() < 10)
+  {
     minutes = "0" + String(tm.Minute());
     lcd.print(minutes);
-  } else {
+  }
+  else
+  {
     lcd.print(tm.Minute());
   }
   lcd.print(":");
-  if (tm.Second() < 10) {
+  if (tm.Second() < 10)
+  {
     seconds = "0" + String(tm.Second());
     lcd.print(seconds);
-  } else {
+  }
+  else
+  {
     lcd.print(tm.Second());
   }
 }
 
 /*draw homescreen*/
-void drawHome(RtcDateTime &dt) {
+void drawHome(RtcDateTime &dt)
+{
   lcd.blink_off();
   lcd.noCursor();
   printTime(dt);
   lcd.setCursor(13, 1);
   lcd.print("Mode");
   lcd.setCursor(14, 2);
-  if (currentMode == SUMMER) {
+  if (currentMode == SUMMER)
+  {
     lcd.print("Sum");
-  } else if (currentMode == WINTER) {
+  }
+  else if (currentMode == WINTER)
+  {
     lcd.print("Win");
-  } else if (currentMode == EXAM) {
+  }
+  else if (currentMode == EXAM)
+  {
     lcd.print("Exm");
-  } else if (currentMode == UNDEFINED) {
+  }
+  else if (currentMode == UNDEFINED)
+  {
     lcd.print("N/a");
   }
   // lcd.setCursor(2, 1);
@@ -198,57 +230,62 @@ void drawHome(RtcDateTime &dt) {
   delay(1000); // delay here or in caller?
 }
 
-void keyChange() {
+void keyChange()
+{
   // A key press changed
   ttp229.keyChange = true;
 }
 
-void gotoRoot() {
+void gotoRoot()
+{
   currentSelectionCmdId = -1; // root screen
   obj.reset();
   lcd.clear();
   printSelected();
 }
 
-void parseTime(int timeArr[], int counter, int actionKey) {
-  switch (actionKey) {
+void parseKeys(int buffer[], int counter, int actionKey)
+{
+  switch (actionKey)
+  {
   case ONE:
-    timeArr[counter] = 1;
+    buffer[counter] = 1;
     break;
   case TWO:
-    timeArr[counter] = 2;
+    buffer[counter] = 2;
     break;
   case THREE:
-    timeArr[counter] = 3;
+    buffer[counter] = 3;
     break;
   case FOUR:
-    timeArr[counter] = 4;
+    buffer[counter] = 4;
     break;
   case FIVE:
-    timeArr[counter] = 5;
+    buffer[counter] = 5;
     break;
   case SIX:
-    timeArr[counter] = 6;
+    buffer[counter] = 6;
     break;
   case SEVEN:
-    timeArr[counter] = 7;
+    buffer[counter] = 7;
     break;
   case EIGHT:
-    timeArr[counter] = 8;
+    buffer[counter] = 8;
     break;
   case NINE:
-    timeArr[counter] = 9;
+    buffer[counter] = 9;
     break;
   case ZERO:
-    timeArr[counter] = 0;
+    buffer[counter] = 0;
     break;
   default:
-    timeArr[counter] = -1;
+    buffer[counter] = -1;
   }
 }
 
 // get time from user, set it into rtc.
-void handleSetDateTime() {
+void handleSetDateTime()
+{
   int h = 0, m = 0;
   int timeArr[4] = {0, 0, 0, 0};
   int actionKey = -1;
@@ -259,28 +296,36 @@ void handleSetDateTime() {
   lcd.setCursor(0, 0);
   bool exit = false;
   int counter = 0;
-  while (!exit) {
-    if (ttp229.keyChange) {
+  while (!exit)
+  {
+    if (ttp229.keyChange)
+    {
       keyPressed = ttp229.GetKey16();
       Serial.print("keyPressed=");
       Serial.println(keyPressed);
-      if (keyPressed != 0) {
+      if (keyPressed != 0)
+      {
         actionKey = keyPressed;
       }
-      switch (keyPressed) {
+      switch (keyPressed)
+      {
       case RELEASE:
-        if (actionKey == ENT) {
+        if (actionKey == ENT)
+        {
           h = 10 * timeArr[0] + timeArr[1];
           m = 10 * timeArr[2] + timeArr[3];
           now = rtc.GetDateTime();
           RtcDateTime toSet(now.Year(), now.Month(), now.Day(), h, m, 0);
           rtc.SetDateTime(toSet);
           exit = true;
-        } else if (actionKey != -1) {
+        }
+        else if (actionKey != -1)
+        {
           Serial.println("actionKey=" + actionKey);
-          parseTime(timeArr, counter, actionKey);
+          parseKeys(timeArr, counter, actionKey);
           lcd.print(String(timeArr[counter]));
-          if (counter == 1) {
+          if (counter == 1)
+          {
             lcd.print(":");
           }
           counter++;
@@ -291,10 +336,16 @@ void handleSetDateTime() {
         break;
       }
     }
+    else
+    {
+      Serial.println("no key");
+      delay(100);
+    }
   }
 }
 
-void handleProgSched() {
+void handleProgSched()
+{
   // number of schedules fixed to 24.
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -304,32 +355,180 @@ void handleProgSched() {
   lcd.print(base);
   int actionKey;
   bool exit = false;
-  while (!exit) {
-    if (ttp229.keyChange) {
+  while (!exit)
+  {
+    if (ttp229.keyChange)
+    {
       int keyPressed = ttp229.GetKey16();
       lcd.setCursor(2, 0);
-      if (keyPressed != 0) {
+      if (keyPressed != 0)
+      {
         actionKey = keyPressed;
       }
-      switch (keyPressed) {
+      switch (keyPressed)
+      {
       case RELEASE:
-        if (actionKey == UP) {
+        if (actionKey == UP)
+        {
           --schedCounter;
-          if (schedCounter < 1) {
+          if (schedCounter < 1)
+          {
             schedCounter = 1;
           }
           counterStr = String(schedCounter);
           lcd.print(counterStr);
           actionKey = 0;
-        } else if (actionKey == DOWN) {
+        }
+        else if (actionKey == DOWN)
+        {
           ++schedCounter;
-          if (schedCounter > PROGSCHEDSIZE) {
+          if (schedCounter > PROGSCHEDSIZE)
+          {
             schedCounter = PROGSCHEDSIZE;
           }
           counterStr = String(schedCounter);
           lcd.print(counterStr);
           actionKey = 0;
-        } else if (actionKey == ENT) {
+        }
+        else if (actionKey == ENT)
+        {
+          currentSchedule = schedCounter;
+          // get the number of bells for the selected schedule.
+          int i = 0;
+          int bellPressed = -1;
+          int bellKey = -1;
+          int bellBuff[2]; // need not more than 99 bells?
+          lcd.clear();
+          lcd.print("Bells=");
+          while (i < 2)
+          {
+            if (ttp229.keyChange)
+            {
+              bellPressed = ttp229.GetKey16();
+              if (bellPressed != 0)
+              {
+                bellKey = bellPressed;
+              }
+              switch (bellPressed)
+              {
+              case RELEASE:
+                if (bellKey != -1)
+                {
+                  parseKeys(bellBuff, i, bellKey);
+                  lcd.print(String(bellBuff[i]));
+                  i++;
+                }
+                break;
+              default:
+              }
+              bellKey = -1;
+            }
+            else
+            {
+              delay(10); // test for this
+            }
+          }
+          schedules[schedCounter].countBells = bellBuff[0] * 10 + bellBuff[1] * 1;
+          Serial.printf("set bells=%d for schedule=%d \n",schedules[schedCounter].countBells,schedCounter+1);
+          // alloc memory for number of bells given.
+          schedules[schedCounter].bells = (Bell *)(malloc(sizeof(Bell) * schedules[schedCounter].countBells));
+          Serial.println("memory allocated");
+          int setBellCounter = 0;
+          int bellTimePressed = -1;
+          int bellTimeKey = -1;
+          int bellTimeBuff[4]; // hhmm
+          while (setBellCounter < schedules[schedCounter].countBells)
+          {
+            lcd.clear();
+            lcd.print("Bell-");
+            lcd.print(String(setBellCounter + 1));
+            Serial.printf("Processing Bell=%d\n",setBellCounter+1);
+            lcd.setCursor(1, 0); // 2nd row to display time to be entered.
+            int i = 0;
+            while (i < 4)
+            {
+              if (ttp229.keyChange)
+              {
+                bellTimePressed = ttp229.GetKey16();
+                if (bellTimePressed != 0)
+                {
+                  bellTimeKey = bellTimePressed;
+                }
+                if (bellTimePressed == RELEASE)
+                {
+                  if (bellTimeKey != -1)
+                  {
+                    parseKeys(bellTimeBuff, i, bellTimeKey);
+                    lcd.print(String(bellTimeBuff[i]));
+                    if (i == 1)
+                    {
+                      lcd.print(":");
+                    }
+                    i++;
+                  }
+                }
+              }
+              else
+              {
+                delay(10);
+              }
+              bellTimeKey = -1;
+            }
+
+            // got time, set in the current bell
+            schedules[schedCounter].bells->hour = bellTimeBuff[0] * 10 + bellTimeBuff[1] * 1;
+            schedules[schedCounter].bells->min = bellTimeBuff[2] * 10 + bellTimeBuff[3] * 1;
+            lcd.clear();
+            lcd.print("FILE-");
+            Serial.println("Get file");
+            i = 0;
+            int fileCount = myDFPlayer.readFileCounts();
+            int bellFileKey = -1;
+            int bellFileCounter = 0;
+            while (i < 1)
+            {
+              if (ttp229.keyChange)
+              {
+                int bellFilePressed = ttp229.GetKey16();
+                if (bellFilePressed != RELEASE)
+                {
+                  bellFileKey = bellFilePressed;
+                }
+                if (bellFilePressed == RELEASE)
+                {
+                  if (bellFileKey == UP)
+                  {
+                    bellFileCounter--;
+                    if (bellFileCounter < 0)
+                    {
+                      bellFileCounter = 0;
+                    }
+                    lcd.print(String(bellFileCounter));
+                  }
+                  else if (bellFileKey == DOWN)
+                  {
+                    bellFileCounter++;
+                    if (bellFileCounter > fileCount)
+                    {
+                      bellFileCounter = fileCount;
+                    }
+                    lcd.print(String(bellFileCounter));
+                  }
+                  else if (bellFileKey == ENT)
+                  {
+                    schedules[schedCounter].bells->file = bellFileCounter;
+                    Serial.printf("Bell=%d File=%d\n", setBellCounter + 1, bellFileCounter);
+                    i++; // exit loop here.
+                  }
+                }
+                bellFileKey = -1;
+              }
+              else
+              {
+                delay(10);
+              }
+            }
+          }
         }
         break;
 
@@ -339,7 +538,8 @@ void handleProgSched() {
     }
   }
 }
-void handleManualMode() {
+void handleManualMode()
+{
   lcd.clear();
   lcd.blink_off();
   String msg = "FILE-x";
@@ -350,35 +550,46 @@ void handleManualMode() {
   lcd.print(msg);
   bool exit = false;
   int actionKey;
-  while (!exit) {
-    if (ttp229.keyChange) {
+  while (!exit)
+  {
+    if (ttp229.keyChange)
+    {
       int keyPressed = ttp229.GetKey16();
       Serial.println(keyPressed);
       lcd.setCursor(5, 0);
-      if (keyPressed != 0) {
+      if (keyPressed != 0)
+      {
         actionKey = keyPressed;
       }
-      switch (keyPressed) {
+      switch (keyPressed)
+      {
       case RELEASE:
-        if (actionKey == UP) {
+        if (actionKey == UP)
+        {
           --counter;
-          if (counter < 1) {
+          if (counter < 1)
+          {
             counter = 1;
           }
           Serial.printf("counter=%d\n", counter);
           counterStr = String(counter);
           lcd.print(counterStr);
           actionKey = 0;
-        } else if (actionKey == DOWN) {
+        }
+        else if (actionKey == DOWN)
+        {
           ++counter;
-          if (counter > fileCount) {
+          if (counter > fileCount)
+          {
             counter = fileCount;
           }
           Serial.printf("counter=%d\n", counter);
           counterStr = String(counter);
           lcd.print(counterStr);
           actionKey = 0;
-        } else if (actionKey == ENT) {
+        }
+        else if (actionKey == ENT)
+        {
           myDFPlayer.play(counter);
           actionKey = 0;
         }
@@ -402,30 +613,38 @@ void handleManualMode() {
   it tells loop() to run a logic continously. eg. draw homescreen and
   keep updating time.
 */
-void keyPressTask(void *pvParameters) {
+void keyPressTask(void *pvParameters)
+{
   int currId;
-  while (1) {
-    if (ttp229.keyChange) {
+  while (1)
+  {
+    if (ttp229.keyChange)
+    {
       int keyPressed = ttp229.GetKey16();
       Serial.print("keyPressed=");
       Serial.println(keyPressed);
-      switch ((keyPressed)) {
+      switch ((keyPressed))
+      {
       case UP:
         if (currentSelectionCmdId ==
-            mnuCmdHome) { // nothing happends on pressing up down in selected
-                          // home
+            mnuCmdHome)
+        { // nothing happends on pressing up down in selected
+          // home
           break;
         }
-        if (obj.moveToPreviousItem()) {
+        if (obj.moveToPreviousItem())
+        {
           Serial.println("going up");
           printSelected();
         }
         break;
       case DOWN:
-        if (currentSelectionCmdId == mnuCmdHome) {
+        if (currentSelectionCmdId == mnuCmdHome)
+        {
           break;
         }
-        if (obj.moveToNextItem()) {
+        if (obj.moveToNextItem())
+        {
           Serial.println("going down");
           printSelected();
         }
@@ -434,51 +653,71 @@ void keyPressTask(void *pvParameters) {
         currId = obj.getCurrentItemCmdId();
         Serial.printf("currId=%d\n", currId);
         currentSelectionCmdId = currId;
-        if (obj.currentItemHasChildren()) {
+        if (obj.currentItemHasChildren())
+        {
           lcd.clear();
           obj.descendToChildMenu();
           printSelected();
         }
-        if (currId == mnuCmdHome) {
+        if (currId == mnuCmdHome)
+        {
           lcd.clear();
-        } else if (currId == mnuCmdManual) {
+        }
+        else if (currId == mnuCmdManual)
+        {
           // call function to select mp3 file and play it.
           handleManualMode();
-        } else if (currId == mnuCmdSummer) { // summer selected in mode
-                                             // selection
+        }
+        else if (currId == mnuCmdSummer)
+        { // summer selected in mode
+          // selection
           currentMode = SUMMER;
           Serial.printf("mode=%d\n", currentMode);
           gotoRoot();
-        } else if (currId == mnuCmdWinter) { // summer selected in mode
-                                             // selection
+        }
+        else if (currId == mnuCmdWinter)
+        { // summer selected in mode
+          // selection
           currentMode = WINTER;
           Serial.printf("mode=%d\n", currentMode);
           gotoRoot();
-        } else if (currId == mnuCmdExam) {
+        }
+        else if (currId == mnuCmdExam)
+        {
           currentMode = EXAM;
           Serial.printf("mode=%d\n", currentMode);
           gotoRoot();
-        } else if (currId == mnuCmdOFF) {
+        }
+        else if (currId == mnuCmdOFF)
+        {
           currentMode = UNDEFINED;
           Serial.printf("mode=%d\n", currentMode);
           gotoRoot();
-        } else if (currId == mnuCmdSetDateTime) {
+        }
+        else if (currId == mnuCmdSetDateTime)
+        {
           handleSetDateTime();
-        } else if (currId == mnuCmdProgSched) {
+        }
+        else if (currId == mnuCmdProgSched)
+        {
           handleProgSched();
         }
         break;
       case BACK:
-        if (currId == mnuCmdHome) {
+        if (currId == mnuCmdHome)
+        {
           // kuch ni
         }
         currentSelectionCmdId = -1; // clear selection
-        if (obj.currentMenuHasParent()) {
+        if (obj.currentMenuHasParent())
+        {
           obj.ascendToParentMenu();
           lcd.clear();
           lcd.setCursor(0, 0);
           printSelected();
-        } else {
+        }
+        else
+        {
           lcd.clear();
           currentSelectionCmdId = mnuCmdHome; // goto home on back from root
         }
@@ -496,12 +735,14 @@ void keyPressTask(void *pvParameters) {
   vTaskDelete(NULL);
 }
 
-void setup() {
+void setup()
+{
   // put your setup code here, to run once:
   Serial.begin(115200);
   mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
   /*---------------software serial and dfplayer init-----------------*/
-  if (!myDFPlayer.begin(mySoftwareSerial)) {
+  if (!myDFPlayer.begin(mySoftwareSerial))
+  {
     Serial.println(myDFPlayer.readType(), HEX);
     Serial.println(F("Unable to begin:"));
     Serial.println(F("1.Please recheck the connection!"));
@@ -518,25 +759,33 @@ void setup() {
   /*---------rtc init------------*/
   rtc.Begin();
   RtcDateTime compiled = RtcDateTime(__DATE__, __TIME__);
-  if (!rtc.IsDateTimeValid()) {
-    if (rtc.LastError() != 0) {
+  if (!rtc.IsDateTimeValid())
+  {
+    if (rtc.LastError() != 0)
+    {
       Serial.print("RTC communicatins error= ");
       Serial.println(rtc.LastError());
-    } else {
+    }
+    else
+    {
       Serial.println("RTC lost confidence in date and time");
       rtc.SetDateTime(compiled);
     }
   }
-  if (!rtc.GetIsRunning()) {
+  if (!rtc.GetIsRunning())
+  {
     Serial.println("RTC was not actively running, starting now");
     rtc.SetIsRunning(true);
   }
 
   RtcDateTime now = rtc.GetDateTime();
-  if (now < compiled) {
+  if (now < compiled)
+  {
     Serial.println("rtc is older than compile time. Updating");
     rtc.SetDateTime(compiled);
-  } else {
+  }
+  else
+  {
     Serial.println("rtc time same or newer than compile time");
   }
   rtc.Enable32kHzPin(false);
@@ -555,17 +804,22 @@ void setup() {
 - updates current time
 - will loop logic or will wait for flag
 */
-void loop() {
+void loop()
+{
   // put your main code here, to run repeatedly:
 
-  if (!rtc.IsDateTimeValid()) {
-    if (rtc.LastError() != 0) {
+  if (!rtc.IsDateTimeValid())
+  {
+    if (rtc.LastError() != 0)
+    {
       // we have a communications error
       // see https://www.arduino.cc/en/Reference/WireEndTransmission for
       // what the number means
       Serial.print("RTC communications error = ");
       Serial.println(rtc.LastError());
-    } else {
+    }
+    else
+    {
       // Common Causes:
       //    1) the battery on the device is low or even missing and the power
       //    line was disconnected
@@ -574,7 +828,8 @@ void loop() {
   }
 
   now = rtc.GetDateTime(); // getting the current time
-  switch (currentSelectionCmdId) {
+  switch (currentSelectionCmdId)
+  {
   case mnuCmdHome:
     printFrame();
     drawHome(now);
