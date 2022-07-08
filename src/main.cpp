@@ -425,9 +425,9 @@ void handleProgSched()
                     bellCountDone = true;
                   }
                 }
+                bellKey = -1;
                 break;
               }
-              bellKey = -1;
             }
             else
             {
