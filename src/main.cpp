@@ -447,10 +447,11 @@ void handleProgSched()
           while (setBellCounter < schedules[schedCounter].countBells)
           {
             lcd.clear();
-            lcd.print("Bell-");
+            lcd.print("Bell=");
             lcd.print(String(setBellCounter + 1));
             Serial.printf("Processing Bell=%d\n",setBellCounter+1);
-            lcd.setCursor(1, 0); // 2nd row to display time to be entered.
+            lcd.setCursor(1,1); // 2nd row to display time to be entered.
+            lcd.print("Enter Time: ");
             bool bellCurrentDone = false;
             int i = 0;
             while (!bellCurrentDone)
@@ -489,6 +490,7 @@ void handleProgSched()
             // got time, set in the current bell
             schedules[schedCounter].bells->hour = bellTimeBuff[0] * 10 + bellTimeBuff[1] * 1;
             schedules[schedCounter].bells->min = bellTimeBuff[2] * 10 + bellTimeBuff[3] * 1;
+            Serial.printf("Time= %d:%d\n",schedules[schedCounter].bells->hour,schedules[schedCounter].bells->min);
             lcd.clear();
             lcd.print("FILE-");
             Serial.println("Get file");
@@ -539,6 +541,7 @@ void handleProgSched()
                 delay(10);
               }
             }
+            setBellCounter++;
           }
         }
         actionKey = -1;
