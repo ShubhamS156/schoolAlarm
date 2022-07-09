@@ -725,11 +725,13 @@ void keyPressTask(void *pvParameters)
           {
             Serial.println("Calling handleSetDateTime()");
             handleSetDateTime();
+            printSelected();
           }
           else if (currId == mnuCmdProgSched)
           {
             Serial.println("Calling handleProgSched");
             handleProgSched();
+            printSelected();
           }
           break;
         case BACK:
