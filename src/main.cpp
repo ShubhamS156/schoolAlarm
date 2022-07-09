@@ -685,6 +685,7 @@ void keyPressTask(void *pvParameters)
         else if (currId == mnuCmdManual)
         {
           // call function to select mp3 file and play it.
+          Serial.println("calling handleManualMode");
           handleManualMode();
         }
         else if (currId == mnuCmdSummer)
@@ -715,6 +716,7 @@ void keyPressTask(void *pvParameters)
         }
         else if (currId == mnuCmdSetDateTime)
         {
+          Serial.println("Calling handleSetDateTime()");
           handleSetDateTime();
         }
         else if (currId == mnuCmdProgSched)
