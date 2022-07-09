@@ -322,7 +322,7 @@ void handleSetDateTime()
           lcd.clear();
           lcd.print(msg);
         }
-        else if (actionKey != -1)
+        else if (actionKey != -1 && actionKey!=UP && actionKey!=DOWN && actionKey!=MENU && actionKey!=BACK)
         {
           Serial.println("actionKey=" + actionKey);
           parseKeys(timeArr, counter, actionKey);
