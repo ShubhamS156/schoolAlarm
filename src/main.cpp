@@ -331,7 +331,7 @@ void handleSetDateTime()
         actionKey = -1;
         break;
       default:
-      Serial.printf("ActionKey=%d\n",actionKey);
+        Serial.printf("ActionKey=%d\n", actionKey);
       }
     }
     else
@@ -391,11 +391,11 @@ void handleProgSched()
         }
         else if (actionKey == ENT)
         {
-          Serial.printf("Program=%d\n",schedCounter+1);
+          Serial.printf("Program=%d\n", schedCounter + 1);
           currentSchedule = schedCounter;
           // get the number of bells for the selected schedule.
           bool bellCountDone = false;
-          int i=0;
+          int i = 0;
           int bellPressed = -1;
           int bellKey = -1;
           int bellBuff[2]; // need not more than 99 bells?
@@ -409,7 +409,7 @@ void handleProgSched()
               if (bellPressed != 0)
               {
                 bellKey = bellPressed;
-                Serial.printf("BellKey=%d\n",bellKey);
+                Serial.printf("BellKey=%d\n", bellKey);
               }
               switch (bellPressed)
               {
@@ -419,7 +419,8 @@ void handleProgSched()
                   parseKeys(bellBuff, i, bellKey);
                   lcd.print(String(bellBuff[i]));
                   i++;
-                  if(i==2){
+                  if (i == 2)
+                  {
                     bellCountDone = true;
                   }
                 }
@@ -434,7 +435,7 @@ void handleProgSched()
             }
           }
           schedules[schedCounter].countBells = bellBuff[0] * 10 + bellBuff[1] * 1;
-          Serial.printf("set bells=%d for schedule=%d \n",schedules[schedCounter].countBells,schedCounter+1);
+          Serial.printf("set bells=%d for schedule=%d \n", schedules[schedCounter].countBells, schedCounter + 1);
           // alloc memory for number of bells given.
           schedules[schedCounter].bells = (Bell *)(malloc(sizeof(Bell) * schedules[schedCounter].countBells));
           Serial.println("memory allocated");
@@ -447,8 +448,8 @@ void handleProgSched()
             lcd.clear();
             lcd.print("Bell=");
             lcd.print(String(setBellCounter + 1));
-            Serial.printf("Processing Bell=%d\n",setBellCounter+1);
-            lcd.setCursor(1,1); // 2nd row to display time to be entered.
+            Serial.printf("Processing Bell=%d\n", setBellCounter + 1);
+            lcd.setCursor(1, 1); // 2nd row to display time to be entered.
             lcd.print("Enter Time: ");
             bool bellCurrentDone = false;
             int i = 0;
@@ -471,9 +472,10 @@ void handleProgSched()
                     {
                       lcd.print(":");
                     }
-                    if(bellTimeKey == ENT && i>3){
+                    if (bellTimeKey == ENT && i > 3)
+                    {
                       bellCurrentDone = true;
-                    } 
+                    }
                     i++;
                   }
                   bellTimeKey = -1;
@@ -488,7 +490,7 @@ void handleProgSched()
             // got time, set in the current bell
             schedules[schedCounter].bells->hour = bellTimeBuff[0] * 10 + bellTimeBuff[1] * 1;
             schedules[schedCounter].bells->min = bellTimeBuff[2] * 10 + bellTimeBuff[3] * 1;
-            Serial.printf("Time= %d:%d\n",schedules[schedCounter].bells->hour,schedules[schedCounter].bells->min);
+            Serial.printf("Time= %d:%d\n", schedules[schedCounter].bells->hour, schedules[schedCounter].bells->min);
             lcd.clear();
             lcd.print("FILE=");
             Serial.println("Get file");
@@ -501,7 +503,7 @@ void handleProgSched()
             {
               if (ttp229.keyChange)
               {
-                lcd.setCursor(5,0);
+                lcd.setCursor(5, 0);
                 int bellFilePressed = ttp229.GetKey16();
                 if (bellFilePressed != 0)
                 {
@@ -546,7 +548,8 @@ void handleProgSched()
           lcd.clear();
           lcd.print("P-");
         }
-        else if(actionKey == BACK){
+        else if (actionKey == BACK)
+        {
           Serial.println("exiting programming mode handler");
           exit = true;
           lcd.clear();
@@ -635,120 +638,130 @@ void handleManualMode()
 void keyPressTask(void *pvParameters)
 {
   int currId;
+  int actionKey = -1;
   while (1)
   {
     if (ttp229.keyChange)
     {
       int keyPressed = ttp229.GetKey16();
-      Serial.print("keyPressed=");
-      Serial.println(keyPressed);
+      if (keyPressed != 0)
+      {
+        actionKey = keyPressed;
+      }
       switch ((keyPressed))
       {
-      case UP:
-        if (currentSelectionCmdId ==
-            mnuCmdHome)
-        { // nothing happends on pressing up down in selected
-          // home
+      case RELEASE:
+        switch (actionKey)
+        {
+        case UP:
+          if (currentSelectionCmdId ==
+              mnuCmdHome)
+          { // nothing happends on pressing up down in selected
+            // home
+            break;
+          }
+          if (obj.moveToPreviousItem())
+          {
+            Serial.println("going up");
+            printSelected();
+          }
+          break;
+        case DOWN:
+          if (currentSelectionCmdId == mnuCmdHome)
+          {
+            break;
+          }
+          if (obj.moveToNextItem())
+          {
+            Serial.println("going down");
+            printSelected();
+          }
+          break;
+        case ENT:
+          currId = obj.getCurrentItemCmdId();
+          Serial.printf("currId=%d\n", currId);
+          currentSelectionCmdId = currId;
+          if (obj.currentItemHasChildren())
+          {
+            lcd.clear();
+            obj.descendToChildMenu();
+            printSelected();
+          }
+          if (currId == mnuCmdHome)
+          {
+            lcd.clear();
+          }
+          else if (currId == mnuCmdManual)
+          {
+            // call function to select mp3 file and play it.
+            Serial.println("calling handleManualMode");
+            handleManualMode();
+          }
+          else if (currId == mnuCmdSummer)
+          { // summer selected in mode
+            // selection
+            currentMode = SUMMER;
+            Serial.printf("mode=%d\n", currentMode);
+            gotoRoot();
+          }
+          else if (currId == mnuCmdWinter)
+          { // summer selected in mode
+            // selection
+            currentMode = WINTER;
+            Serial.printf("mode=%d\n", currentMode);
+            gotoRoot();
+          }
+          else if (currId == mnuCmdExam)
+          {
+            currentMode = EXAM;
+            Serial.printf("mode=%d\n", currentMode);
+            gotoRoot();
+          }
+          else if (currId == mnuCmdOFF)
+          {
+            currentMode = UNDEFINED;
+            Serial.printf("mode=%d\n", currentMode);
+            gotoRoot();
+          }
+          else if (currId == mnuCmdSetDateTime)
+          {
+            Serial.println("Calling handleSetDateTime()");
+            handleSetDateTime();
+          }
+          else if (currId == mnuCmdProgSched)
+          {
+            Serial.println("Calling handleProgSched");
+            handleProgSched();
+          }
+          break;
+        case BACK:
+          if (currId == mnuCmdHome)
+          {
+            // kuch ni
+          }
+          currentSelectionCmdId = -1; // clear selection
+          if (obj.currentMenuHasParent())
+          {
+            obj.ascendToParentMenu();
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            printSelected();
+          }
+          else
+          {
+            lcd.clear();
+            currentSelectionCmdId = mnuCmdHome; // goto home on back from root
+          }
+          break;
+        case MENU:
+          gotoRoot();
+          break;
+        default:
           break;
         }
-        if (obj.moveToPreviousItem())
-        {
-          Serial.println("going up");
-          printSelected();
-        }
-        break;
-      case DOWN:
-        if (currentSelectionCmdId == mnuCmdHome)
-        {
-          break;
-        }
-        if (obj.moveToNextItem())
-        {
-          Serial.println("going down");
-          printSelected();
-        }
-        break;
-      case ENT:
-        currId = obj.getCurrentItemCmdId();
-        Serial.printf("currId=%d\n", currId);
-        currentSelectionCmdId = currId;
-        if (obj.currentItemHasChildren())
-        {
-          lcd.clear();
-          obj.descendToChildMenu();
-          printSelected();
-        }
-        if (currId == mnuCmdHome)
-        {
-          lcd.clear();
-        }
-        else if (currId == mnuCmdManual)
-        {
-          // call function to select mp3 file and play it.
-          Serial.println("calling handleManualMode");
-          handleManualMode();
-        }
-        else if (currId == mnuCmdSummer)
-        { // summer selected in mode
-          // selection
-          currentMode = SUMMER;
-          Serial.printf("mode=%d\n", currentMode);
-          gotoRoot();
-        }
-        else if (currId == mnuCmdWinter)
-        { // summer selected in mode
-          // selection
-          currentMode = WINTER;
-          Serial.printf("mode=%d\n", currentMode);
-          gotoRoot();
-        }
-        else if (currId == mnuCmdExam)
-        {
-          currentMode = EXAM;
-          Serial.printf("mode=%d\n", currentMode);
-          gotoRoot();
-        }
-        else if (currId == mnuCmdOFF)
-        {
-          currentMode = UNDEFINED;
-          Serial.printf("mode=%d\n", currentMode);
-          gotoRoot();
-        }
-        else if (currId == mnuCmdSetDateTime)
-        {
-          Serial.println("Calling handleSetDateTime()");
-          handleSetDateTime();
-        }
-        else if (currId == mnuCmdProgSched)
-        {
-          Serial.println("Calling handleProgSched");
-          handleProgSched();
-        }
-        break;
-      case BACK:
-        if (currId == mnuCmdHome)
-        {
-          // kuch ni
-        }
-        currentSelectionCmdId = -1; // clear selection
-        if (obj.currentMenuHasParent())
-        {
-          obj.ascendToParentMenu();
-          lcd.clear();
-          lcd.setCursor(0, 0);
-          printSelected();
-        }
-        else
-        {
-          lcd.clear();
-          currentSelectionCmdId = mnuCmdHome; // goto home on back from root
-        }
-        break;
-      case MENU:
-        gotoRoot();
-        break;
+        actionKey = -1;
       default:
-        break;
+        Serial.printf("ActionKey=%d\n", actionKey);
       }
     }
     currId = -1;
