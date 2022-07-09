@@ -330,8 +330,6 @@ void handleSetDateTime()
         }
         actionKey = -1;
         break;
-      default:
-        Serial.printf("ActionKey=%d\n", actionKey);
       }
     }
     else
