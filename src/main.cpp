@@ -534,6 +534,7 @@ void handleProgSched()
                     schedules[schedCounter].bells->file = bellFileCounter;
                     Serial.printf("Bell=%d File=%d\n", setBellCounter + 1, bellFileCounter);
                     bellFileDone = true; // exit loop here.
+                    exit = true;
                   }
                   bellFileKey = -1;
                 }
