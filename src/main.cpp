@@ -546,7 +546,7 @@ void handleProgSched()
             setBellCounter++;
           }
           lcd.clear();
-          lcd.print(base);
+          lcd.print("P-");
         }
         else if(actionKey == BACK){
           Serial.println("exiting programming mode handler");
