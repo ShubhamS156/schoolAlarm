@@ -760,8 +760,6 @@ void keyPressTask(void *pvParameters)
           break;
         }
         actionKey = -1;
-      default:
-        Serial.printf("ActionKey=%d\n", actionKey);
       }
     }
     currId = -1;
