@@ -317,6 +317,11 @@ void handleSetDateTime()
           rtc.SetDateTime(toSet);
           exit = true;
         }
+        else if(actionKey == DELETE){
+          counter = 0;
+          lcd.clear();
+          lcd.print(msg);
+        }
         else if (actionKey != -1)
         {
           Serial.println("actionKey=" + actionKey);
