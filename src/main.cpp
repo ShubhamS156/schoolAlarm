@@ -317,21 +317,26 @@ void handleSetDateTime()
           rtc.SetDateTime(toSet);
           exit = true;
         }
-        else if(actionKey == DELETE){
+        else if (actionKey == DELETE)
+        {
           counter = 0;
           lcd.clear();
           lcd.print(msg);
+          lcd.setCursor(0, 0);
         }
-        else if (actionKey != -1 && actionKey!=UP && actionKey!=DOWN && actionKey!=MENU && actionKey!=BACK)
+        else if (actionKey != -1 && actionKey != UP && actionKey != DOWN && actionKey != MENU && actionKey != BACK)
         {
-          Serial.println("actionKey=" + actionKey);
-          parseKeys(timeArr, counter, actionKey);
-          lcd.print(String(timeArr[counter]));
-          if (counter == 1)
+          if (counter < 4)
           {
-            lcd.print(":");
+            Serial.println("actionKey=" + actionKey);
+            parseKeys(timeArr, counter, actionKey);
+            lcd.print(String(timeArr[counter]));
+            if (counter == 1)
+            {
+              lcd.print(":");
+            }
+            counter++;
           }
-          counter++;
         }
         actionKey = -1;
         break;
@@ -820,7 +825,7 @@ void setup()
   if (now < compiled)
   {
     Serial.println("rtc is older than compile time. Updating");
-    //rtc.SetDateTime(compiled); //NOTE: not updating date time 
+    // rtc.SetDateTime(compiled); //NOTE: not updating date time
   }
   else
   {
