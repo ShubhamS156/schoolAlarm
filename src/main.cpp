@@ -301,8 +301,6 @@ void handleSetDateTime()
     if (ttp229.keyChange)
     {
       keyPressed = ttp229.GetKey16();
-      Serial.print("keyPressed=");
-      Serial.println(keyPressed);
       if (keyPressed != 0)
       {
         actionKey = keyPressed;
@@ -333,7 +331,7 @@ void handleSetDateTime()
         actionKey = -1;
         break;
       default:
-        break;
+      Serial.printf("ActionKey=%d\n",actionKey);
       }
     }
     else
