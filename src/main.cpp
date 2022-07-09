@@ -815,7 +815,7 @@ void setup()
   if (now < compiled)
   {
     Serial.println("rtc is older than compile time. Updating");
-    rtc.SetDateTime(compiled);
+    //rtc.SetDateTime(compiled); //NOTE: not updating date time 
   }
   else
   {
