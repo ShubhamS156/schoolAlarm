@@ -549,8 +549,6 @@ void handleProgSched()
         actionKey = -1;
         break;
 
-      default:
-        break;
       }
     }
   }
