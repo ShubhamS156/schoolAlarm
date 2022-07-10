@@ -171,7 +171,7 @@ void printTime(RtcDateTime &tm)
   lcd.print((tm.Year()));
 
   String seconds, minutes;
-  lcd.setCursor(3, 2);
+  lcd.setCursor(2, 2);
   lcd.print(tm.Hour());
   lcd.print(":");
   if (tm.Minute() < 10)
