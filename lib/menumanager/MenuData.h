@@ -82,67 +82,67 @@ const MenuItem sampleMenu_List_4_2[] = {
     {mnuCmdTotalBell, sampleMenu_4_2_2},
     {mnuCmdBack, sampleMenu_back}};
 
-const char sampleMenu_4_3_1[] = "4.3.1 Monday";
-const char sampleMenu_4_3_2[] = "4.3.2 Tuesday";
-const char sampleMenu_4_3_3[] = "4.3.3 Wednesday";
-const char sampleMenu_4_3_4[] = "4.3.4 Thursday";
-const char sampleMenu_4_3_5[] = "4.3.5 Friday";
-const char sampleMenu_4_3_6[] = "4.3.6 Saturday";
-const char sampleMenu_4_3_7[] = "4.3.7 Sunday";
+const char sampleMenu_4_3_1[] = " Monday";
+const char sampleMenu_4_3_2[] = " Tuesday";
+const char sampleMenu_4_3_3[] = " Wednesday";
+const char sampleMenu_4_3_4[] = " Thursday";
+const char sampleMenu_4_3_5[] = " Friday";
+const char sampleMenu_4_3_6[] = " Saturday";
+const char sampleMenu_4_3_7[] = " Sunday";
 const MenuItem sampleMenu_List_4_3[] = {
     {mnuCmdSumMon, sampleMenu_4_3_1}, {mnuCmdSumTue, sampleMenu_4_3_2},
     {mnuCmdSumWed, sampleMenu_4_3_3}, {mnuCmdSumThu, sampleMenu_4_3_4},
     {mnuCmdSumFri, sampleMenu_4_3_5}, {mnuCmdSumSat, sampleMenu_4_3_6},
     {mnuCmdSumSun, sampleMenu_4_3_7}, {mnuCmdBack, sampleMenu_back}};
 
-const char sampleMenu_4_4_1[] = "4.4.1 Monday";
-const char sampleMenu_4_4_2[] = "4.4.2 Tuesday";
-const char sampleMenu_4_4_3[] = "4.4.3 Wednesday";
-const char sampleMenu_4_4_4[] = "4.4.4 Thursday";
-const char sampleMenu_4_4_5[] = "4.4.5 Friday";
-const char sampleMenu_4_4_6[] = "4.4.6 Saturday";
-const char sampleMenu_4_4_7[] = "4.4.7 Sunday";
+const char sampleMenu_4_4_1[] = " Monday";
+const char sampleMenu_4_4_2[] = " Tuesday";
+const char sampleMenu_4_4_3[] = " Wednesday";
+const char sampleMenu_4_4_4[] = " Thursday";
+const char sampleMenu_4_4_5[] = " Friday";
+const char sampleMenu_4_4_6[] = " Saturday";
+const char sampleMenu_4_4_7[] = " Sunday";
 const MenuItem sampleMenu_List_4_4[] = {
     {mnuCmdWinMon, sampleMenu_4_4_1}, {mnuCmdWinTue, sampleMenu_4_4_2},
     {mnuCmdWinWed, sampleMenu_4_4_3}, {mnuCmdWinThu, sampleMenu_4_4_4},
     {mnuCmdWinFri, sampleMenu_4_4_5}, {mnuCmdWinSat, sampleMenu_4_4_6},
     {mnuCmdWinSun, sampleMenu_4_4_7}, {mnuCmdBack, sampleMenu_back}};
 
-const char sampleMenu_4_5_1[] = "4.5.1 Monday";
-const char sampleMenu_4_5_2[] = "4.5.2 Tuesday";
-const char sampleMenu_4_5_3[] = "4.5.3 Wednesday";
-const char sampleMenu_4_5_4[] = "4.5.4 Thursday";
-const char sampleMenu_4_5_5[] = "4.5.5 Friday";
-const char sampleMenu_4_5_6[] = "4.5.6 Saturday";
-const char sampleMenu_4_5_7[] = "4.5.7 Sunday";
+const char sampleMenu_4_5_1[] = " Monday";
+const char sampleMenu_4_5_2[] = " Tuesday";
+const char sampleMenu_4_5_3[] = " Wednesday";
+const char sampleMenu_4_5_4[] = " Thursday";
+const char sampleMenu_4_5_5[] = " Friday";
+const char sampleMenu_4_5_6[] = " Saturday";
+const char sampleMenu_4_5_7[] = " Sunday";
 const MenuItem sampleMenu_List_4_5[] = {
     {mnuCmdExMon, sampleMenu_4_5_1}, {mnuCmdExTue, sampleMenu_4_5_2},
     {mnuCmdExWed, sampleMenu_4_5_3}, {mnuCmdExThu, sampleMenu_4_5_4},
     {mnuCmdExFri, sampleMenu_4_5_5}, {mnuCmdExSat, sampleMenu_4_5_6},
     {mnuCmdExSun, sampleMenu_4_5_7}, {mnuCmdBack, sampleMenu_back}};
 
-const char sampleMenu_4_6_1[] = "4.6.1 Off";
-const char sampleMenu_4_6_2[] = "4.6.2 Last Day of Month";
-const char sampleMenu_4_6_3[] = "4.6.3 Second Saturday";
-const char sampleMenu_4_6_4[] = "4.6.4 Select Date";
+const char sampleMenu_4_6_1[] = " Off";
+const char sampleMenu_4_6_2[] = " Last Day of Month";
+const char sampleMenu_4_6_3[] = " Second Saturday";
+const char sampleMenu_4_6_4[] = " Select Date";
 const MenuItem sampleMenu_List_4_6[] = {{mnuCmdOff, sampleMenu_4_6_1},
                                         {mnuCmdLastDay, sampleMenu_4_6_2},
                                         {mnuCmdSecondSat, sampleMenu_4_6_3},
                                         {mnuCmdDate, sampleMenu_4_6_4},
                                         {mnuCmdBack, sampleMenu_back}};
 
-const char sampleMenu_4_7_1[] = "4.7.1 Jan";
-const char sampleMenu_4_7_2[] = "4.7.2 Feb";
-const char sampleMenu_4_7_3[] = "4.7.3 March";
-const char sampleMenu_4_7_4[] = "4.7.4 Apr";
-const char sampleMenu_4_7_5[] = "4.7.5 May";
-const char sampleMenu_4_7_6[] = "4.7.6 Jun";
-const char sampleMenu_4_7_7[] = "4.7.7 Jul";
-const char sampleMenu_4_7_8[] = "4.7.8 Aug";
-const char sampleMenu_4_7_9[] = "4.7.9 Sep";
-const char sampleMenu_4_7_10[] = "4.7.10 Oct";
-const char sampleMenu_4_7_11[] = "4.7.11 Nov";
-const char sampleMenu_4_7_12[] = "4.7.12 Dec";
+const char sampleMenu_4_7_1[] = " Jan";
+const char sampleMenu_4_7_2[] = " Feb";
+const char sampleMenu_4_7_3[] = " March";
+const char sampleMenu_4_7_4[] = " Apr";
+const char sampleMenu_4_7_5[] = " May";
+const char sampleMenu_4_7_6[] = " Jun";
+const char sampleMenu_4_7_7[] = " Jul";
+const char sampleMenu_4_7_8[] = " Aug";
+const char sampleMenu_4_7_9[] = " Sep";
+const char sampleMenu_4_7_10[] = " Oct";
+const char sampleMenu_4_7_11[] = " Nov";
+const char sampleMenu_4_7_12[] = " Dec";
 const MenuItem sampleMenu_List_4_7[] = {
     {mnuCmdJan, sampleMenu_4_7_1},   {mnuCmdFeb, sampleMenu_4_7_2},
     {mnuCmdMarch, sampleMenu_4_7_3}, {mnuCmdApr, sampleMenu_4_7_4},
