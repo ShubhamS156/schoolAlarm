@@ -54,7 +54,7 @@ typedef struct
 {
   int countBells = 0;
   Bell *bells; // dynamic array ptr to num of bells
-} ProgSched __packed ;
+} ProgSched __packed;
 
 byte verticalLine[8] = {B00100, B00100, B00100, B00100,
                         B00100, B00100, B00100, B00100};
@@ -80,7 +80,7 @@ int cursorRow = 0;
 int currentSchedule = -1;
 // we have 24 schedule. 8 for sum,wint,exm
 ProgSched schedules[PROGSCHEDSIZE];
-ProgSched* currSchedPtr = NULL;
+ProgSched *currSchedPtr = NULL;
 
 HardwareSerial mySoftwareSerial(2);
 DFRobotDFPlayerMini myDFPlayer;
@@ -230,7 +230,7 @@ void drawHome(RtcDateTime &dt)
   //            dt.Year(), dt.Hour(), dt.Minute(), dt.Second());
   // Serial.print(datestring);
   // lcd.print(datestring);
-  //delay(500); // delay here or in caller?
+  // delay(500); // delay here or in caller?
 }
 
 void keyChange()
@@ -286,11 +286,11 @@ void parseKeys(int buffer[], int counter, int actionKey)
   }
 }
 
-void storeScheduleEprom(int schedCounter){
-  String key = "p"+String(schedCounter+1);
-  preferences.putBytes(key.c_str(),(void*)(&schedules[schedCounter]),sizeof(ProgSched));
-  Serial.printf("stored schedule=%d\n",schedCounter);
-  
+void storeScheduleEprom(int schedCounter)
+{
+  String key = "p" + String(schedCounter + 1);
+  preferences.putBytes(key.c_str(), (void *)(&schedules[schedCounter]), sizeof(ProgSched));
+  Serial.printf("stored schedule=%d\n", schedCounter);
 }
 // get time from user, set it into rtc.
 void handleSetDateTime()
@@ -514,6 +514,7 @@ void handleProgSched()
             i = 0;
             bool bellFileDone = false;
             int fileCount = myDFPlayer.readFileCounts();
+            Serial.printf("TotalFiles=%d\n", fileCount);
             int bellFileKey = -1;
             int bellFileCounter = 0;
             while (!bellFileDone)
@@ -527,35 +528,38 @@ void handleProgSched()
                 }
                 if (bellFilePressed == RELEASE)
                 {
-                  if (bellFileKey == UP)
+                  if (bellFileKey != -1)
                   {
-                    bellFileCounter--;
-                    if (bellFileCounter < 0)
+                    if (bellFileKey == UP)
                     {
-                      bellFileCounter = 0;
+                      bellFileCounter--;
+                      if (bellFileCounter < 0)
+                      {
+                        bellFileCounter = 0;
+                      }
+                      lcd.setCursor(5, 0);
+                      lcd.print(String(bellFileCounter));
                     }
-                    lcd.setCursor(5, 0);
-                    lcd.print(String(bellFileCounter));
-                  }
-                  else if (bellFileKey == DOWN)
-                  {
-                    bellFileCounter++;
-                    if (bellFileCounter > fileCount)
+                    else if (bellFileKey == DOWN)
                     {
-                      bellFileCounter = fileCount;
+                      bellFileCounter++;
+                      if (bellFileCounter > fileCount)
+                      {
+                        bellFileCounter = fileCount;
+                      }
+                      lcd.setCursor(5, 0);
+                      lcd.print(String(bellFileCounter));
                     }
-                    lcd.setCursor(5, 0);
-                    lcd.print(String(bellFileCounter));
+                    else if (bellFileKey == ENT)
+                    {
+                      schedules[schedCounter].bells[setBellCounter].file = bellFileCounter;
+                      Serial.printf("Bell=%d File=%d\n", setBellCounter + 1, bellFileCounter);
+                      bellFileDone = true;
+                      // store here in eeprom?
+                      storeScheduleEprom(schedCounter);
+                    }
+                    bellFileKey = -1;
                   }
-                  else if (bellFileKey == ENT)
-                  {
-                    schedules[schedCounter].bells[setBellCounter].file = bellFileCounter;
-                    Serial.printf("Bell=%d File=%d\n", setBellCounter + 1, bellFileCounter);
-                    bellFileDone = true;
-                    //store here in eeprom?
-                    storeScheduleEprom(schedCounter);
-                  }
-                  bellFileKey = -1;
                 }
               }
               else
@@ -790,38 +794,46 @@ void keyPressTask(void *pvParameters)
   vTaskDelete(NULL);
 }
 
-void alarmTask(void *pvParameters){
-  // if schedule is activated, start with curr bell and match time , if match move to next bell, reset to belll 0 after last bell. 
-  //optimisations: after last bell sleep task for a FIXED time.
+void alarmTask(void *pvParameters)
+{
+  // if schedule is activated, start with curr bell and match time , if match move to next bell, reset to belll 0 after last bell.
+  // optimisations: after last bell sleep task for a FIXED time.
   Serial.println("Starting Alarm Task");
   int currBell = 0;
   int currSched = currentSchedule;
   currSchedPtr = &schedules[currSched];
-  ProgSched* activeSchedPtr  = currSchedPtr;
-  while(1){
+  ProgSched *activeSchedPtr = currSchedPtr;
+  while (1)
+  {
     Serial.println("Getting Time");
     int h = now.Hour();
     int m = now.Minute();
-    if(activeSchedPtr != NULL && currSched!=-1){
-      if(currBell < activeSchedPtr->countBells){
+    if (activeSchedPtr != NULL && currSched != -1)
+    {
+      if (currBell < activeSchedPtr->countBells)
+      {
         Serial.println("trying match");
-        if(activeSchedPtr->bells[currBell].hour ==h && activeSchedPtr->bells[currBell].min == m){
-          Serial.printf("Ringing bell %d\n",currBell);
+        if (activeSchedPtr->bells[currBell].hour == h && activeSchedPtr->bells[currBell].min == m)
+        {
+          Serial.printf("Ringing bell %d\n", currBell);
           myDFPlayer.play(activeSchedPtr->bells[currBell].file);
           currBell++;
         }
-        else{
+        else
+        {
           Serial.println("no match");
         }
       }
-      else{
+      else
+      {
         Serial.println("Invalid Bell");
       }
     }
-    else{
+    else
+    {
       Serial.println("Invalid ptr to scheudle");
     }
-    vTaskDelay(1000/portTICK_PERIOD_MS);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
 }
 
@@ -830,14 +842,16 @@ void setup()
   // put your setup code here, to run once:
   Serial.begin(115200);
   /*---------------Preferences--------------------*/
-  preferences.begin("schedules",false);
-  String key = "p"+String(currentSchedule+1);
-  void* buf;
-  int ret = preferences.getBytes(key.c_str(),buf,sizeof(ProgSched));
-  if(ret > 0){
-    currSchedPtr = (ProgSched*)buf;
+  preferences.begin("schedules", false);
+  String key = "p" + String(currentSchedule + 1);
+  void *buf;
+  int ret = preferences.getBytes(key.c_str(), buf, sizeof(ProgSched));
+  if (ret > 0)
+  {
+    currSchedPtr = (ProgSched *)buf;
   }
-  else{
+  else
+  {
     Serial.println("Failed to read schedule from eeprom");
   }
   /*-----------------Serial----------------------*/
@@ -847,13 +861,13 @@ void setup()
   if (!myDFPlayer.begin(mySoftwareSerial))
   {
     Serial.println(myDFPlayer.readType(), HEX);
-    lcd.setCursor(0,0); 
+    lcd.setCursor(0, 0);
     lcd.print("DF MODULE ER.-");
     Serial.println(F("Unable to begin:"));
-    lcd.setCursor(0,1);
-    lcd.print("INSERT SD CARD"); 
+    lcd.setCursor(0, 1);
+    lcd.print("INSERT SD CARD");
     Serial.println(F("1.Please recheck the conCTN"));
-    lcd.setCursor(0,2); 
+    lcd.setCursor(0, 2);
     lcd.print("OR CHECK CONCTN");
     Serial.println(F("2.Please insert the SD card!"));
     while (true)
@@ -907,7 +921,7 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
   /*-------------keyPress Task----------*/
   xTaskCreate(keyPressTask, "keypress", 4096, NULL, 3, NULL);
-  xTaskCreate(alarmTask,"alarm",1024,NULL,2,NULL);
+  xTaskCreate(alarmTask, "alarm", 1024, NULL, 2, NULL);
 }
 /*
 - updates current time
