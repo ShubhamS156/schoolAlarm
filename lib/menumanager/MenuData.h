@@ -75,12 +75,7 @@ enum sampleMenuCommandId {
 const char sampleMenu_back[] = "Back";
 const char sampleMenu_exit[] = "Exit";
 
-const char sampleMenu_4_2_1[] = "4.2.1 Select Schedule";
-const char sampleMenu_4_2_2[] = "4.2.2 TotalBells";
-const MenuItem sampleMenu_List_4_2[] = {
-    {mnuCmdSelectSchedule, sampleMenu_4_2_1},
-    {mnuCmdTotalBell, sampleMenu_4_2_2},
-    {mnuCmdBack, sampleMenu_back}};
+
 
 const char sampleMenu_4_3_1[] = " Monday";
 const char sampleMenu_4_3_2[] = " Tuesday";
@@ -170,8 +165,7 @@ const char sampleMenu_4_6[] = " PROGRAM MONTHLY";
 const char sampleMenu_4_7[] = " CALENDAR HOLIDAY";
 const MenuItem sampleMenu_List_4[] = {
     {mnuCmdSetDateTime, sampleMenu_4_1},
-    {mnuCmdProgSched, sampleMenu_4_2, sampleMenu_List_4_2,
-     menuCount(sampleMenu_List_4_2)},
+    {mnuCmdProgSched, sampleMenu_4_2},
     {mnuCmdSummerWorkDays, sampleMenu_4_3, sampleMenu_List_4_3,
      menuCount(sampleMenu_List_4_3)},
     {mnuCmdWinterWorkDays, sampleMenu_4_4, sampleMenu_List_4_4,
