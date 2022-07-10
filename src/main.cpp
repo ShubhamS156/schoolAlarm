@@ -792,6 +792,7 @@ void keyPressTask(void *pvParameters)
 void alarmTask(void *pvParameters){
   // if schedule is activated, start with curr bell and match time , if match move to next bell, reset to belll 0 after last bell. 
   //optimisations: after last bell sleep task for a FIXED time.
+  Serial.println("Starting Alarm Task");
   int currBell = 0;
   int currSched = currentSchedule;
   ProgSched* activeSchedPtr  = currSchedPtr;
@@ -800,10 +801,14 @@ void alarmTask(void *pvParameters){
     int m = now.Minute();
     if(!activeSchedPtr){
       if(currBell < activeSchedPtr->countBells){
+        Serial.println("trying match");
         if(activeSchedPtr->bells[currBell].hour ==h && activeSchedPtr->bells[currBell].min == m){
           Serial.printf("Ringing bell %d\n",currBell);
           myDFPlayer.play(activeSchedPtr->bells[currBell].file);
           currBell++;
+        }
+        else{
+          Serial.println("no match");
         }
       }
       else{
@@ -822,16 +827,16 @@ void setup()
   // put your setup code here, to run once:
   Serial.begin(115200);
   /*---------------Preferences--------------------*/
-  // preferences.begin("schedules",false);
-  // String key = "p"+String(currentSchedule+1);
-  // void* buf;
-  // int ret = preferences.getBytes(key.c_str(),buf,sizeof(ProgSched));
-  // if(ret > 0){
-  //   currSchedPtr = (ProgSched*)buf;
-  // }
-  // else{
-  //   Serial.println("Failed to read schedule from eeprom");
-  // }
+  preferences.begin("schedules",false);
+  String key = "p"+String(currentSchedule+1);
+  void* buf;
+  int ret = preferences.getBytes(key.c_str(),buf,sizeof(ProgSched));
+  if(ret > 0){
+    currSchedPtr = (ProgSched*)buf;
+  }
+  else{
+    Serial.println("Failed to read schedule from eeprom");
+  }
   /*-----------------Serial----------------------*/
   mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
   lcd.begin();
@@ -899,7 +904,7 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
   /*-------------keyPress Task----------*/
   xTaskCreate(keyPressTask, "keypress", 4096, NULL, 3, NULL);
-  //xTaskCreate(alarmTask,"alarm",1024,NULL,2,NULL);
+  xTaskCreate(alarmTask,"alarm",1024,NULL,2,NULL);
 }
 /*
 - updates current time
