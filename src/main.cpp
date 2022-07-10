@@ -9,6 +9,7 @@
 #include <esp_system.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <Preferences.h>
 
 #define RELEASE 0
 #define ONE 1
@@ -46,14 +47,14 @@ typedef struct
   int hour;
   int min;
   int file;
-} Bell;
+} Bell __packed;
 
 // TODO: store instances of these in eeprom
 typedef struct
 {
   int countBells = 0;
   Bell *bells; // dynamic array ptr to num of bells
-} ProgSched;
+} ProgSched __packed ;
 
 // we have 24 schedule. 8 for sum,wint,exm
 ProgSched schedules[PROGSCHEDSIZE];
@@ -87,6 +88,7 @@ RtcDS3231<TwoWire> rtc(Wire);
 TTP229 ttp229;
 MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
 RtcDateTime now; // global to get current time.
+Preferences preferences;
 
 void createCustomCharacters()
 {
@@ -542,6 +544,9 @@ void handleProgSched()
                     schedules[schedCounter].bells->file = bellFileCounter;
                     Serial.printf("Bell=%d File=%d\n", setBellCounter + 1, bellFileCounter);
                     bellFileDone = true;
+                    //store here in eeprom?
+                    
+
                   }
                   bellFileKey = -1;
                 }
@@ -782,6 +787,8 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  /*---------------Preferences--------------------*/
+  preferences.begin("schedules",false);
   mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
   /*---------------software serial and dfplayer init-----------------*/
   if (!myDFPlayer.begin(mySoftwareSerial))
