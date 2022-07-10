@@ -834,12 +834,19 @@ void setup()
   // }
   /*-----------------Serial----------------------*/
   mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
+  lcd.begin();
   /*---------------software serial and dfplayer init-----------------*/
   if (!myDFPlayer.begin(mySoftwareSerial))
   {
     Serial.println(myDFPlayer.readType(), HEX);
+    lcd.setCursor(0,0); 
+    lcd.print("DF MODULE ER.-");
     Serial.println(F("Unable to begin:"));
-    Serial.println(F("1.Please recheck the connection!"));
+    lcd.setCursor(0,1);
+    lcd.print("INSERT SD CARD"); 
+    Serial.println(F("1.Please recheck the conCTN"));
+    lcd.setCursor(0,2); 
+    lcd.print("OR CHECK CONCTN");
     Serial.println(F("2.Please insert the SD card!"));
     while (true)
       ;
@@ -885,7 +892,6 @@ void setup()
   rtc.Enable32kHzPin(false);
   rtc.SetSquareWavePin(DS3231SquareWavePin_ModeNone);
   /*-----------lcd init---------*/
-  lcd.begin();
   createCustomCharacters(); // creating custom characters
   lcd.blink();
   /*-----------keypad------------*/
