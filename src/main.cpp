@@ -230,7 +230,7 @@ void drawHome(RtcDateTime &dt)
   //            dt.Year(), dt.Hour(), dt.Minute(), dt.Second());
   // Serial.print(datestring);
   // lcd.print(datestring);
-  delay(1000); // delay here or in caller?
+  //delay(500); // delay here or in caller?
 }
 
 void keyChange()
