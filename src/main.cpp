@@ -414,7 +414,7 @@ void handleProgSched()
           bool bellCountDone = false;
           int i = 0;
           int bellPressed = -1;
-          int bellKey = -1;
+          int bellKey = 0;
           int bellBuff[2]; // need not more than 99 bells?
           lcd.clear();
           lcd.print("Bells=");
