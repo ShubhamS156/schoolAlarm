@@ -797,9 +797,10 @@ void alarmTask(void *pvParameters){
   int currSched = currentSchedule;
   ProgSched* activeSchedPtr  = currSchedPtr;
   while(1){
+    Serial.println("Getting Time");
     int h = now.Hour();
     int m = now.Minute();
-    if(!activeSchedPtr){
+    if(activeSchedPtr != NULL){
       if(currBell < activeSchedPtr->countBells){
         Serial.println("trying match");
         if(activeSchedPtr->bells[currBell].hour ==h && activeSchedPtr->bells[currBell].min == m){
