@@ -822,16 +822,16 @@ void setup()
   // put your setup code here, to run once:
   Serial.begin(115200);
   /*---------------Preferences--------------------*/
-  preferences.begin("schedules",false);
-  String key = "p"+String(currentSchedule+1);
-  void* buf;
-  int ret = preferences.getBytes(key.c_str(),buf,sizeof(ProgSched));
-  if(ret > 0){
-    currSchedPtr = (ProgSched*)buf;
-  }
-  else{
-    Serial.println("Failed to read schedule from eeprom");
-  }
+  // preferences.begin("schedules",false);
+  // String key = "p"+String(currentSchedule+1);
+  // void* buf;
+  // int ret = preferences.getBytes(key.c_str(),buf,sizeof(ProgSched));
+  // if(ret > 0){
+  //   currSchedPtr = (ProgSched*)buf;
+  // }
+  // else{
+  //   Serial.println("Failed to read schedule from eeprom");
+  // }
   /*-----------------Serial----------------------*/
   mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
   /*---------------software serial and dfplayer init-----------------*/
