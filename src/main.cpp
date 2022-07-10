@@ -288,6 +288,8 @@ void parseKeys(int buffer[], int counter, int actionKey)
 void storeScheduleEprom(int schedCounter){
   String key = "p"+String(schedCounter+1);
   preferences.putBytes(key.c_str(),(void*)(&schedules[schedCounter]),sizeof(ProgSched));
+  Serial.printf("stored schedule=%d\n",schedCounter);
+  
 }
 // get time from user, set it into rtc.
 void handleSetDateTime()
@@ -792,6 +794,8 @@ void setup()
   Serial.begin(115200);
   /*---------------Preferences--------------------*/
   preferences.begin("schedules",false);
+  
+  /*-----------------Serial----------------------*/
   mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
   /*---------------software serial and dfplayer init-----------------*/
   if (!myDFPlayer.begin(mySoftwareSerial))
