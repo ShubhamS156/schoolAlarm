@@ -93,7 +93,7 @@ const MenuItem sampleMenu_List_4_3[] = {
     {mnuCmdSumMon, sampleMenu_4_3_1}, {mnuCmdSumTue, sampleMenu_4_3_2},
     {mnuCmdSumWed, sampleMenu_4_3_3}, {mnuCmdSumThu, sampleMenu_4_3_4},
     {mnuCmdSumFri, sampleMenu_4_3_5}, {mnuCmdSumSat, sampleMenu_4_3_6},
-    {mnuCmdSumSun, sampleMenu_4_3_7}, {mnuCmdBack, sampleMenu_back}};
+    {mnuCmdSumSun, sampleMenu_4_3_7}};
 
 const char sampleMenu_4_4_1[] = " Monday";
 const char sampleMenu_4_4_2[] = " Tuesday";
@@ -106,7 +106,7 @@ const MenuItem sampleMenu_List_4_4[] = {
     {mnuCmdWinMon, sampleMenu_4_4_1}, {mnuCmdWinTue, sampleMenu_4_4_2},
     {mnuCmdWinWed, sampleMenu_4_4_3}, {mnuCmdWinThu, sampleMenu_4_4_4},
     {mnuCmdWinFri, sampleMenu_4_4_5}, {mnuCmdWinSat, sampleMenu_4_4_6},
-    {mnuCmdWinSun, sampleMenu_4_4_7}, {mnuCmdBack, sampleMenu_back}};
+    {mnuCmdWinSun, sampleMenu_4_4_7}};
 
 const char sampleMenu_4_5_1[] = " Monday";
 const char sampleMenu_4_5_2[] = " Tuesday";
@@ -119,7 +119,7 @@ const MenuItem sampleMenu_List_4_5[] = {
     {mnuCmdExMon, sampleMenu_4_5_1}, {mnuCmdExTue, sampleMenu_4_5_2},
     {mnuCmdExWed, sampleMenu_4_5_3}, {mnuCmdExThu, sampleMenu_4_5_4},
     {mnuCmdExFri, sampleMenu_4_5_5}, {mnuCmdExSat, sampleMenu_4_5_6},
-    {mnuCmdExSun, sampleMenu_4_5_7}, {mnuCmdBack, sampleMenu_back}};
+    {mnuCmdExSun, sampleMenu_4_5_7}};
 
 const char sampleMenu_4_6_1[] = " Off";
 const char sampleMenu_4_6_2[] = " Last Day of Month";
@@ -129,7 +129,7 @@ const MenuItem sampleMenu_List_4_6[] = {{mnuCmdOff, sampleMenu_4_6_1},
                                         {mnuCmdLastDay, sampleMenu_4_6_2},
                                         {mnuCmdSecondSat, sampleMenu_4_6_3},
                                         {mnuCmdDate, sampleMenu_4_6_4},
-                                        {mnuCmdBack, sampleMenu_back}};
+                                        };
 
 const char sampleMenu_4_7_1[] = " Jan";
 const char sampleMenu_4_7_2[] = " Feb";
@@ -150,7 +150,7 @@ const MenuItem sampleMenu_List_4_7[] = {
     {mnuCmdJul, sampleMenu_4_7_7},   {mnuCmdAug, sampleMenu_4_7_8},
     {mnuCmdSep, sampleMenu_4_7_9},   {mnuCmdOct, sampleMenu_4_7_10},
     {mnuCmdNov, sampleMenu_4_7_11},  {mnuCmdDec, sampleMenu_4_7_12},
-    {mnuCmdBack, sampleMenu_back}};
+    };
 
 const char sampleMenu_3_1[] = " Summer";
 const char sampleMenu_3_2[] = " Winter";
