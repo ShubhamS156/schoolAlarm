@@ -797,8 +797,15 @@ void setup()
   if (!myDFPlayer.begin(mySoftwareSerial))
   {
     Serial.println(myDFPlayer.readType(), HEX);
+    lcd.begin();
+    lcd.setCursor(0,0); 
+    lcd.print("DF MODULE ER.-");
     Serial.println(F("Unable to begin:"));
-    Serial.println(F("1.Please recheck the connection!"));
+    lcd.setCursor(0,1);
+    lcd.print("INSERT SD CARD"); 
+    Serial.println(F("1.Please recheck the conCTN"));
+    lcd.setCursor(0,2); 
+    lcd.print("OR CHECK CONNECTION");
     Serial.println(F("2.Please insert the SD card!"));
     while (true)
       ;
@@ -860,7 +867,6 @@ void setup()
 void loop()
 {
   // put your main code here, to run repeatedly:
-
   if (!rtc.IsDateTimeValid())
   {
     if (rtc.LastError() != 0)
@@ -870,6 +876,7 @@ void loop()
       // what the number means
       Serial.print("RTC communications error = ");
       Serial.println(rtc.LastError());
+      
     }
     else
     {
