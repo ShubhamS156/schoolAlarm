@@ -80,7 +80,7 @@ int cursorRow = 0;
 int currentSchedule = 0;
 // we have 24 schedule. 8 for sum,wint,exm
 ProgSched schedules[PROGSCHEDSIZE];
-ProgSched* currSchedPtr;
+ProgSched* currSchedPtr = NULL;
 
 HardwareSerial mySoftwareSerial(2);
 DFRobotDFPlayerMini myDFPlayer;
