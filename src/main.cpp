@@ -505,9 +505,9 @@ void handleProgSched()
             }
 
             // got time, set in the current bell
-            schedules[schedCounter].bells->hour = bellTimeBuff[0] * 10 + bellTimeBuff[1] * 1;
-            schedules[schedCounter].bells->min = bellTimeBuff[2] * 10 + bellTimeBuff[3] * 1;
-            Serial.printf("Time= %d:%d\n", schedules[schedCounter].bells->hour, schedules[schedCounter].bells->min);
+            schedules[schedCounter].bells[setBellCounter].hour = bellTimeBuff[0] * 10 + bellTimeBuff[1] * 1;
+            schedules[schedCounter].bells[setBellCounter].min = bellTimeBuff[2] * 10 + bellTimeBuff[3] * 1;
+            Serial.printf("Time= %d:%d\n", schedules[schedCounter].bells[setBellCounter].hour, schedules[schedCounter].bells[setBellCounter].min);
             lcd.clear();
             lcd.print("FILE=");
             Serial.println("Get file");
@@ -548,7 +548,7 @@ void handleProgSched()
                   }
                   else if (bellFileKey == ENT)
                   {
-                    schedules[schedCounter].bells->file = bellFileCounter;
+                    schedules[schedCounter].bells[setBellCounter].file = bellFileCounter;
                     Serial.printf("Bell=%d File=%d\n", setBellCounter + 1, bellFileCounter);
                     bellFileDone = true;
                     //store here in eeprom?
@@ -800,8 +800,18 @@ void alarmTask(void *pvParameters){
     int m = now.Minute();
     if(!activeSchedPtr){
       if(currBell < activeSchedPtr->countBells){
-
+        if(activeSchedPtr->bells[currBell].hour ==h && activeSchedPtr->bells[currBell].min == m){
+          Serial.printf("Ringing bell %d\n",currBell);
+          myDFPlayer.play(activeSchedPtr->bells[currBell].file);
+          currBell++;
+        }
       }
+      else{
+        Serial.println("Invalid Bell");
+      }
+    }
+    else{
+      Serial.println("Invalid ptr to scheudle");
     }
   }
 }
