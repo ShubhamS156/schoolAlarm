@@ -56,9 +56,6 @@ typedef struct
   Bell *bells; // dynamic array ptr to num of bells
 } ProgSched __packed ;
 
-// we have 24 schedule. 8 for sum,wint,exm
-ProgSched schedules[PROGSCHEDSIZE];
-int currentSchedule = 0;
 byte verticalLine[8] = {B00100, B00100, B00100, B00100,
                         B00100, B00100, B00100, B00100};
 
@@ -74,16 +71,20 @@ byte char3[8] = {0b00100, 0b00100, 0b00100, 0b00111,
 byte char4[8] = {0b00100, 0b00100, 0b00100, 0b11100,
                  0b00000, 0b00000, 0b00000, 0b00000};
 
-int currentSelectionCmdId = mnuCmdHome;
-int currentMode = UNDEFINED;
-int cursorRow = 0;
-
 uint8_t arrow[8] = {0x00, 0x04, 0x06, 0x1f,
                     0x06, 0x04, 0x00}; // Send 0,4,6,1F,6,4,0 for the arrow
 
+int currentSelectionCmdId = mnuCmdHome;
+int currentMode = UNDEFINED;
+int cursorRow = 0;
+int currentSchedule = 0;
+// we have 24 schedule. 8 for sum,wint,exm
+ProgSched schedules[PROGSCHEDSIZE];
+ProgSched* currSchedPtr;
+
 HardwareSerial mySoftwareSerial(2);
 DFRobotDFPlayerMini myDFPlayer;
-LiquidCrystal_I2C lcd(0x23, 20, 4);
+LiquidCrystal_I2C lcd(0x27, 20, 4);
 RtcDS3231<TwoWire> rtc(Wire);
 TTP229 ttp229;
 MenuManager obj(sampleMenu_Root, menuCount(sampleMenu_Root));
@@ -788,28 +789,46 @@ void keyPressTask(void *pvParameters)
   vTaskDelete(NULL);
 }
 
+void alarmTask(void *pvParameters){
+  // if schedule is activated, start with curr bell and match time , if match move to next bell, reset to belll 0 after last bell. 
+  //optimisations: after last bell sleep task for a FIXED time.
+  int currBell = 0;
+  int currSched = currentSchedule;
+  ProgSched* activeSchedPtr  = currSchedPtr;
+  while(1){
+    int h = now.Hour();
+    int m = now.Minute();
+    if(!activeSchedPtr){
+      if(currBell < activeSchedPtr->countBells){
+
+      }
+    }
+  }
+}
+
 void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
   /*---------------Preferences--------------------*/
   preferences.begin("schedules",false);
-  
+  String key = "p"+String(currentSchedule+1);
+  void* buf;
+  int ret = preferences.getBytes(key.c_str(),buf,sizeof(ProgSched));
+  if(ret > 0){
+    currSchedPtr = (ProgSched*)buf;
+  }
+  else{
+    Serial.println("Failed to read schedule from eeprom");
+  }
   /*-----------------Serial----------------------*/
   mySoftwareSerial.begin(9600, SERIAL_8N1, 16, 17);
   /*---------------software serial and dfplayer init-----------------*/
   if (!myDFPlayer.begin(mySoftwareSerial))
   {
     Serial.println(myDFPlayer.readType(), HEX);
-    lcd.begin();
-    lcd.setCursor(0,0); 
-    lcd.print("DF MODULE ER.-");
     Serial.println(F("Unable to begin:"));
-    lcd.setCursor(0,1);
-    lcd.print("INSERT SD CARD"); 
-    Serial.println(F("1.Please recheck the conCTN"));
-    lcd.setCursor(0,2); 
-    lcd.print("OR CHECK CONNECTION");
+    Serial.println(F("1.Please recheck the connection!"));
     Serial.println(F("2.Please insert the SD card!"));
     while (true)
       ;
@@ -863,6 +882,7 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
   /*-------------keyPress Task----------*/
   xTaskCreate(keyPressTask, "keypress", 4096, NULL, 3, NULL);
+  xTaskCreate(alarmTask,"alarm",1024,NULL,2,NULL);
 }
 /*
 - updates current time
@@ -871,6 +891,7 @@ void setup()
 void loop()
 {
   // put your main code here, to run repeatedly:
+
   if (!rtc.IsDateTimeValid())
   {
     if (rtc.LastError() != 0)
@@ -880,7 +901,6 @@ void loop()
       // what the number means
       Serial.print("RTC communications error = ");
       Serial.println(rtc.LastError());
-      
     }
     else
     {
