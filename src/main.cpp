@@ -795,6 +795,7 @@ void alarmTask(void *pvParameters){
   Serial.println("Starting Alarm Task");
   int currBell = 0;
   int currSched = currentSchedule;
+  currSchedPtr = &schedules[currSched];
   ProgSched* activeSchedPtr  = currSchedPtr;
   while(1){
     Serial.println("Getting Time");
