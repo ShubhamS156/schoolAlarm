@@ -77,7 +77,7 @@ uint8_t arrow[8] = {0x00, 0x04, 0x06, 0x1f,
 int currentSelectionCmdId = mnuCmdHome;
 int currentMode = UNDEFINED;
 int cursorRow = 0;
-int currentSchedule = 0;
+int currentSchedule = -1;
 // we have 24 schedule. 8 for sum,wint,exm
 ProgSched schedules[PROGSCHEDSIZE];
 ProgSched* currSchedPtr = NULL;
@@ -520,7 +520,6 @@ void handleProgSched()
             {
               if (ttp229.keyChange)
               {
-                lcd.setCursor(5, 0);
                 int bellFilePressed = ttp229.GetKey16();
                 if (bellFilePressed != 0)
                 {
@@ -535,6 +534,7 @@ void handleProgSched()
                     {
                       bellFileCounter = 0;
                     }
+                    lcd.setCursor(5, 0);
                     lcd.print(String(bellFileCounter));
                   }
                   else if (bellFileKey == DOWN)
@@ -544,6 +544,7 @@ void handleProgSched()
                     {
                       bellFileCounter = fileCount;
                     }
+                    lcd.setCursor(5, 0);
                     lcd.print(String(bellFileCounter));
                   }
                   else if (bellFileKey == ENT)
@@ -559,7 +560,7 @@ void handleProgSched()
               }
               else
               {
-                delay(10);
+                delay(50);
               }
             }
             setBellCounter++;
@@ -801,7 +802,7 @@ void alarmTask(void *pvParameters){
     Serial.println("Getting Time");
     int h = now.Hour();
     int m = now.Minute();
-    if(activeSchedPtr != NULL){
+    if(activeSchedPtr != NULL && currSched!=-1){
       if(currBell < activeSchedPtr->countBells){
         Serial.println("trying match");
         if(activeSchedPtr->bells[currBell].hour ==h && activeSchedPtr->bells[currBell].min == m){
