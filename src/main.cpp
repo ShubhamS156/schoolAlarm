@@ -285,6 +285,10 @@ void parseKeys(int buffer[], int counter, int actionKey)
   }
 }
 
+void storeScheduleEprom(int schedCounter){
+  String key = "p"+String(schedCounter+1);
+  preferences.putBytes(key.c_str(),(void*)(&schedules[schedCounter]),sizeof(ProgSched));
+}
 // get time from user, set it into rtc.
 void handleSetDateTime()
 {
@@ -545,8 +549,7 @@ void handleProgSched()
                     Serial.printf("Bell=%d File=%d\n", setBellCounter + 1, bellFileCounter);
                     bellFileDone = true;
                     //store here in eeprom?
-                    
-
+                    storeScheduleEprom(schedCounter);
                   }
                   bellFileKey = -1;
                 }
