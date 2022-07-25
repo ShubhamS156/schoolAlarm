@@ -722,7 +722,7 @@ void keyPressTask(void *pvParameters)
             obj.descendToChildMenu();
             printSelected();
           }
-          if (currId == mnuCmdHome)
+          else if (currId == mnuCmdHome)
           {
             lcd.clear();
           }
@@ -967,6 +967,7 @@ void loop()
   switch (currentSelectionCmdId)
   {
   case mnuCmdHome:
+    delay(500);
     printFrame();
     drawHome(now);
     break;
