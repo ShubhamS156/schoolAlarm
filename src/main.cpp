@@ -833,7 +833,7 @@ void alarmTask(void *pvParameters)
     {
       Serial.println("Invalid ptr to scheudle");
       Serial.printf("currSched=%d",currSched);
-      Serial.println(activeSchedPtr);
+      //Serial.println(activeSchedPtr);
     }
     vTaskDelay(1000 / portTICK_PERIOD_MS);
   }
