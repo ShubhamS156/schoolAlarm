@@ -244,6 +244,7 @@ void gotoRoot()
   currentSelectionCmdId = -1; // root screen
   obj.reset();
   lcd.clear();
+  delay(1000);
   printSelected();
 }
 
@@ -651,6 +652,9 @@ void handleManualMode()
         exit = true;
         obj.ascendToParentMenu();
         lcd.clear();
+      case MENU:
+        gotoRoot();
+        break;
       default:
         break;
       }
