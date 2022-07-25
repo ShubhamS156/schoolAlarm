@@ -241,9 +241,9 @@ void keyChange()
 
 void gotoRoot()
 {
+  lcd.clear();
   currentSelectionCmdId = -1; // root screen
   obj.reset();
-  lcd.clear();
   delay(100); //delay to clear
   printSelected();
 }
@@ -967,9 +967,9 @@ void loop()
   switch (currentSelectionCmdId)
   {
   case mnuCmdHome:
-    delay(500);
     printFrame();
     drawHome(now);
+    delay(500);
     break;
   default:
     break;
