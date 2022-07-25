@@ -923,7 +923,7 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(TTP229_SDO), keyChange, RISING);
   /*-------------keyPress Task----------*/
   xTaskCreate(keyPressTask, "keypress", 4096, NULL, 3, NULL);
-  xTaskCreate(alarmTask, "alarm", 1024, NULL, 2, NULL);
+  //xTaskCreate(alarmTask, "alarm", 1024, NULL, 2, NULL);
 }
 /*
 - updates current time
