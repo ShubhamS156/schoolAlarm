@@ -588,7 +588,7 @@ void handleManualMode()
 {
   lcd.clear();
   lcd.blink_off();
-  String msg = "FILE-x";
+  String msg = "FILE=x";
   String counterStr = "";
   int fileCount = myDFPlayer.readFileCounts();
   int counter = 0;
@@ -602,7 +602,6 @@ void handleManualMode()
     {
       int keyPressed = ttp229.GetKey16();
       Serial.println(keyPressed);
-      lcd.setCursor(5, 0);
       if (keyPressed != 0)
       {
         actionKey = keyPressed;
@@ -619,6 +618,7 @@ void handleManualMode()
           }
           Serial.printf("counter=%d\n", counter);
           counterStr = String(counter);
+          lcd.setCursor(5,0);
           lcd.print(counterStr);
           actionKey = 0;
         }
@@ -631,6 +631,7 @@ void handleManualMode()
           }
           Serial.printf("counter=%d\n", counter);
           counterStr = String(counter);
+          lcd.setCursor(5, 0);
           lcd.print(counterStr);
           actionKey = 0;
         }
