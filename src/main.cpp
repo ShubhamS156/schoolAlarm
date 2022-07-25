@@ -592,6 +592,7 @@ void handleManualMode()
   String counterStr = "";
   int fileCount = myDFPlayer.readFileCounts();
   if(fileCount == -1){
+    Serial.println("file count -ve");
     fileCount = 0;
   }
   int counter = 0;
