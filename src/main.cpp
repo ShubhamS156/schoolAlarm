@@ -591,6 +591,9 @@ void handleManualMode()
   String msg = "FILE=x";
   String counterStr = "";
   int fileCount = myDFPlayer.readFileCounts();
+  if(fileCount == -1){
+    fileCount = 0;
+  }
   int counter = 0;
   lcd.setCursor(0, 0);
   lcd.print(msg);
@@ -612,9 +615,9 @@ void handleManualMode()
         if (actionKey == UP)
         {
           --counter;
-          if (counter < 1)
+          if (counter < 1 )
           {
-            counter = 1;
+            counter = 0;
           }
           Serial.printf("counter=%d\n", counter);
           counterStr = String(counter);
