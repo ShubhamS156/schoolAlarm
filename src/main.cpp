@@ -591,6 +591,7 @@ void handleManualMode()
   String msg = "FILE=x";
   String counterStr = "";
   int fileCount = myDFPlayer.readFileCounts();
+  fileCount = myDFPlayer.readFileCounts();
   if(fileCount == -1){
     Serial.println("file count -ve");
     fileCount = 0;
@@ -605,10 +606,11 @@ void handleManualMode()
     if (ttp229.keyChange)
     {
       int keyPressed = ttp229.GetKey16();
-      Serial.println(keyPressed);
+      
       if (keyPressed != 0)
       {
         actionKey = keyPressed;
+        Serial.println(keyPressed);
       }
       switch (keyPressed)
       {
