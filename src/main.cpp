@@ -244,7 +244,7 @@ void gotoRoot()
   currentSelectionCmdId = -1; // root screen
   obj.reset();
   lcd.clear();
-  delay(1000);
+  delay(100); //delay to clear
   printSelected();
 }
 
